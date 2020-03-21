@@ -62,13 +62,16 @@ namespace FlightSimulatorApp
 
         private void RealKnob_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            int counter = 0;
             if (isPressed)
             {
                 Point position = e.GetPosition(this.centerEllipse);
 
                 knobPosition.X = position.X;
                 knobPosition.Y = position.Y;
+                //bla again
 
+                //blaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
                 /*Canvas.SetLeft(this.RealKnob, position.X);
                 Canvas.SetTop(this.RealKnob, position.Y);
