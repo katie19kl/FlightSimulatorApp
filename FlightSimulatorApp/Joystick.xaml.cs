@@ -68,9 +68,7 @@ namespace FlightSimulatorApp
 
                 knobPosition.X = position.X;
                 knobPosition.Y = position.Y;
-                //bla again
 
-                //blaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
                 /*Canvas.SetLeft(this.RealKnob, position.X);
                 Canvas.SetTop(this.RealKnob, position.Y);
