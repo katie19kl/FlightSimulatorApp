@@ -25,21 +25,32 @@ namespace FlightSimulatorApp
         private void RealKnob_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             isPressed = true;
-            point = e.GetPosition(this);
+            point = e.GetPosition(this.Base);
             
            
         }
 
-        private void RealKnob_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void Base_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if(isPressed)
+            {
+                Point p = e.GetPosition(this.Base);
+
+                this.knobPosition.X = p.X;
+                this.knobPosition.Y = p.Y;
+            }
+        }
+
+        private void Base_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (isPressed)
             {
-                Point position = e.GetPosition(this);
+                Point position = e.GetPosition(this.Base);
 
                 double xVal = position.X - point.X;
                 double yVal = position.Y - point.Y;
 
-                if(Math.Sqrt(xVal*xVal + yVal*yVal) < (Base.Width / 2) - 43)
+                if (Math.Sqrt(xVal * xVal + yVal * yVal) < (Base.Width / 2) - 43)
                 {
                     knobPosition.X = xVal;
                     knobPosition.Y = yVal;
