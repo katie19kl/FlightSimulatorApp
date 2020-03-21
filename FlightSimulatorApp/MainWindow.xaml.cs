@@ -58,5 +58,12 @@ namespace FlightSimulatorApp
             string msg = String.Format("current value is: {0}", val);
             t1_Copy.Text = msg;
         }
+
+        private void j1_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            this.j1.isPressed = false;
+            this.j1.knobPosition.X = 0;
+            this.j1.knobPosition.Y = 0;
+        }
     }
 }

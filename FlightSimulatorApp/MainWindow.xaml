@@ -9,7 +9,7 @@
     <Grid>
         <Viewbox Margin="635,326,0,28.667">
             <local:Joystick x:Name="j1" HorizontalAlignment="Left" Height="444" Margin="0,100,0,0"
-                        VerticalAlignment="Top" Width="393" Loaded="Joystick_Loaded_3"/>
+                        VerticalAlignment="Top" Width="393" Loaded="Joystick_Loaded_3" MouseLeftButtonUp="j1_MouseLeftButtonUp"/>
         </Viewbox>
         <StackPanel HorizontalAlignment="Left" Height="76" Margin="621,298,0,0" VerticalAlignment="Top" Width="212">
             <Slider x:Name="s1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="212"
