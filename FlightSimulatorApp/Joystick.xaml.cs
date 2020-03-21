@@ -62,7 +62,6 @@ namespace FlightSimulatorApp
 
         private void RealKnob_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            int counter = 0;
             if (isPressed)
             {
                 Point position = e.GetPosition(this.centerEllipse);
