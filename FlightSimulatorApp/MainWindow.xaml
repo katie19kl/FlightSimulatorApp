@@ -14,7 +14,8 @@
         </Grid.ColumnDefinitions>
         <StackPanel HorizontalAlignment="Left" Height="319" Margin="663,352,0,-0.333" VerticalAlignment="Top" Width="530" Grid.ColumnSpan="2">
             <local:Joystick HorizontalAlignment="Left" Height="100"
-                            VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.5,0.5" Margin="130,0,0,0">
+                            VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.5,0.5" Margin="130,0,0,0"
+                            x:Name="Joystick_Var">
                 <local:Joystick.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
@@ -24,21 +25,21 @@
                     </TransformGroup>
                 </local:Joystick.RenderTransform>
             </local:Joystick>
-            <Slider x:Name="slider1" HorizontalAlignment="Left" VerticalAlignment="Top"
-                Height="35" Width="273" ValueChanged="slider1_ValueChanged" Margin="100,120,0,0" TickPlacement="BottomRight"
+            <Slider x:Name="slider1ValuesMinus1To1" HorizontalAlignment="Left" VerticalAlignment="Top"
+                Height="35" Width="273" Margin="100,120,0,0" TickPlacement="BottomRight"
                     TickFrequency="0.25" Minimum="-1" Maximum="1" Foreground="Black" Background="#FFFFFA00">
                 <Slider.LayoutTransform>
                     <ScaleTransform ScaleX="1" ScaleY="3"/>
                 </Slider.LayoutTransform>
             </Slider>
-            <Slider x:Name="slider1_Copy"
-                Height="35" Width="228" ValueChanged="slider1_ValueChanged" TickPlacement="BottomRight"
-                TickFrequency="0.25" Minimum="-1" Maximum="1" Foreground="Black" Background="#FFF5FF00" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="380,-190,-93,0">
+            <Slider x:Name="slider2Values0To1"
+                Height="35" Width="228" TickPlacement="BottomRight" IsDirectionReversed="True"
+                TickFrequency="0.135" Minimum="0" Maximum="1" Foreground="Black" Background="#FFF5FF00" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="380,-190,-93,0">
                 <Slider.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
                         <SkewTransform/>
-                        <RotateTransform Angle="-270.053"/>
+                        <RotateTransform Angle="90.245"/>
                         <TranslateTransform/>
                     </TransformGroup>
                 </Slider.RenderTransform>
