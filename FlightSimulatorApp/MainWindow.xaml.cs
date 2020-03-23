@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace FlightSimulatorApp
 {
     /// <summary>
@@ -20,50 +21,36 @@ namespace FlightSimulatorApp
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
+            ITelnetClient telnetClient = new MyTelnetClient();
+            IFlightSimulatorModel simulatorModel = new MyFlightSimulatorModel(telnetClient);
+            simulatorModel.connect("127.0.0.1", 7777);
+            this.DataContext = this;
+
         }
 
         private void Joystick_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
-        private void Joystick_Loaded_1(object sender, RoutedEventArgs e)
+        private void ButtonMouse_Up(object sender, MouseButtonEventArgs e)
+        {
+            this.Joystick_Var.SetPiptickToCenter();
+            Joystick_Var.mouseIsPressed = false;
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
 
-        private void Joystick_Loaded_2(object sender, RoutedEventArgs e)
+        private void slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
 
-        }
-
-        private void Joystick_Loaded_3(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            double val = Convert.ToDouble(e.NewValue);
-            string msg = String.Format("current value is: {0}", val);
-            t1.Text = msg;
-        }
-
-        private void s2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            double val = Convert.ToDouble(e.NewValue);
-            string msg = String.Format("current value is: {0}", val);
-            t1_Copy.Text = msg;
-        }
-
-        private void j1_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            this.j1.isPressed = false;
-            this.j1.knobPosition.X = 0;
-            this.j1.knobPosition.Y = 0;
         }
     }
 }
