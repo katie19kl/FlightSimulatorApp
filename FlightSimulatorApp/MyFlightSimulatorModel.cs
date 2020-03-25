@@ -209,14 +209,14 @@ namespace FlightSimulatorApp
                     + "get /instrumentation/altimeter/indicated-altitude-ft\n"
                     + "get /instrumentation/heading-indicator/indicated-heading-deg\n"
                     + "get /instrumentation/gps/indicated-ground-speed-kt\n"
-                    + "get /instrumentation/gps/indicated-vertical-speed\n";
+                    + "get/instrumentation/gps/indicated-vertical-speed\n";
 
                     /*string msg1 = "set /instrumentation/gps/indicated-vertical-speed 30\n";
                     this.telnetClient.write(msg1);
                     string answer1 = telnetClient.read();
                     int index = answer1.IndexOf("\0");
                     string sub = answer1.Substring(0, index - 1);
-                    this.verticalSpeed = Double.Parse(sub);*/ //coud be deleted
+                    this.verticalSpeed = Double.Parse(sub);*/ //could be deleted
 
                     this.telnetClient.write(msg);
 

@@ -9,7 +9,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1200">
 
-    <Grid Background="Yellow" MouseLeftButtonUp="ButtonMouse_Up">
+    <Grid MouseLeftButtonUp="ButtonMouse_Up">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black" Offset="0"/>
+                <GradientStop Color="#FF9EBDD4" Offset="0.401"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="475*"/>
             <ColumnDefinition Width="122*"/>
@@ -75,7 +81,7 @@
                                          Canvas.Left="-225" RenderTransformOrigin="0.5,0.5" Canvas.Top="-101">
                     <materialDesign:PackIcon.RenderTransform>
                         <TransformGroup>
-                            <ScaleTransform/>   
+                            <ScaleTransform/>
                             <SkewTransform/>
                             <RotateTransform Angle="58.669"/>
                             <TranslateTransform/>
@@ -84,6 +90,94 @@
                 </materialDesign:PackIcon>
             </Canvas>
         </m:Map>
+        <ProgressBar Height="Auto" Margin="663,-17,215.333,654.667" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="200" Y="25"/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
+        <ProgressBar Height="Auto" Margin="663,10,215.333,627.667" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="200" Y="40"/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
+        <ProgressBar Height="Auto" Margin="663,81,214.333,556.667" RenderTransformOrigin="0.5,0.5" Background="#FF90CAF9" Grid.ColumnSpan="2">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="200" Y="10"/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
+        <ProgressBar Height="Auto" Margin="663,65,215.333,572.667" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="200" Y="110"/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
+        <ProgressBar Height="Auto" Margin="663,127,214.333,510.667" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="200" Y="90"/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
+        <ProgressBar Height="Auto" Margin="663,184,214.333,453.667" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="200" Y="75"/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
+        <ProgressBar Height="Auto" Margin="663,79,214.333,558.667" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="200" Y="55"/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
+        <TextBlock HorizontalAlignment="Left" Margin="755,14,0,0" TextWrapping="Wrap" Text="AirSpeed" VerticalAlignment="Top" Width="56" Height="24" OpacityMask="#FFFFF9F9" Foreground="White"/>
+        <TextBlock HorizontalAlignment="Left" Margin="755,55,0,0" TextWrapping="Wrap" Text="Altitude" VerticalAlignment="Top" Width="56" Height="24" OpacityMask="#FFFFF9F9" Foreground="White"/>
+        <TextBlock HorizontalAlignment="Left" Margin="755,99,0,0" TextWrapping="Wrap" Text="Roll" VerticalAlignment="Top" Width="56" Height="24" OpacityMask="#FFFFF9F9" Foreground="White"/>
+        <TextBlock HorizontalAlignment="Left" Margin="755,141,0,0" TextWrapping="Wrap" Text="Pitch" VerticalAlignment="Top" Width="56" Height="24" OpacityMask="#FFFFF9F9" Foreground="White"/>
+        <TextBlock HorizontalAlignment="Left" Margin="755,182,0,0" TextWrapping="Wrap" Text="Altimeter" VerticalAlignment="Top" Width="56" Height="24" OpacityMask="#FFFFF9F9" Foreground="White"/>
+        <TextBlock HorizontalAlignment="Left" Margin="755,222,0,0" TextWrapping="Wrap" Text="Heading" VerticalAlignment="Top" Width="56" Height="24" OpacityMask="#FFFFF9F9" Foreground="White"/>
+        <TextBlock HorizontalAlignment="Left" Margin="755,265,0,0" TextWrapping="Wrap" Text="Ground Speed" VerticalAlignment="Top" Width="91" Height="24" OpacityMask="#FFFFF9F9" Foreground="White"/>
+        <ProgressBar Height="Auto" Margin="663,225,214.333,412.667" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="200" Y="75"/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
+        <TextBlock HorizontalAlignment="Left" Margin="755,306,0,0" TextWrapping="Wrap" Text="Vertical Speed" VerticalAlignment="Top" Width="91" Height="24" OpacityMask="#FFFFF9F9" Foreground="White"/>
     </Grid>
 
 </Window>
