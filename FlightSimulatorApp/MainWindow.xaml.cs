@@ -27,8 +27,13 @@ namespace FlightSimulatorApp
             InitializeComponent();
             ITelnetClient telnetClient = new MyTelnetClient();
             IFlightSimulatorModel simulatorModel = new MyFlightSimulatorModel(telnetClient);
-            simulatorModel.connect("127.0.0.1", 7777);
-            this.DataContext = this;
+            simulatorModel.connect("127.0.0.1", "7777");
+            VM_Navigator_Controller viewModelController = new VM_Navigator_Controller(simulatorModel);
+            MapViewModel mapViewModel = new MapViewModel(simulatorModel);
+            this.DataContext = viewModelController;
+            this.Joystick_Var.SetVM(viewModelController);
+
+            simulatorModel.start();
 
         }
 

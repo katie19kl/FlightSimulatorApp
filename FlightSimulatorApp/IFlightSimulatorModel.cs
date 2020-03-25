@@ -7,22 +7,60 @@ using System.ComponentModel;
 
 namespace FlightSimulatorApp
 {
-    interface IFlightSimulatorModel: INotifyPropertyChanged
+    public interface IFlightSimulatorModel : INotifyPropertyChanged
     {
 
         double Rudder
         {
-            get;
-            set;
+            get; set;
         }
 
         double Elevator
         {
-            get;
-            set;
+            get; set;
         }
 
-        bool connect(string ip, int port);
+        double AirSpeed
+        {
+            get; set;
+        }
+
+        double Altitude
+        {
+            get; set;
+        }
+
+        double Roll
+        {
+            get; set;
+        }
+        
+        double Pitch
+        {
+            get; set;
+        }
+
+        double Altimeter
+        {
+            get; set;
+        }
+
+        double Heading
+        {
+            get; set;
+        }
+
+        double GroundSpeed
+        {
+            get; set;
+        }
+
+        double VerticalSpeed
+        {
+            get; set;
+        }
+
+        bool connect(string ip, string port);
 
         void disconnect();
 

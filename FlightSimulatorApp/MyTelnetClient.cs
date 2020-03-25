@@ -7,7 +7,7 @@ using System.Net.Sockets;
 
 namespace FlightSimulatorApp
 {
-    class MyTelnetClient : ITelnetClient
+    public class MyTelnetClient : ITelnetClient
     {
 
         private NetworkStream networkStream;
@@ -17,9 +17,6 @@ namespace FlightSimulatorApp
         public bool connect(string ip, int port)
         {
             //string message_SET_THROTTLE = "set /controls/engines/current-engine/throttle 10\n";
-
-
-            //tring message_GET_THROTTLE = "get /controls/engines/current-engine/throttle\n";
 
             try
             {
@@ -37,22 +34,6 @@ namespace FlightSimulatorApp
                 return isConnected;
 
             }
-           
-
-            /*Byte[] data_SET = System.Text.Encoding.ASCII.GetBytes(message_SET_THROTTLE);
-            networkStream.Write(data_SET, 0, data_SET.Length);
-
-            Byte[] data = System.Text.Encoding.ASCII.GetBytes(message_GET_THROTTLE);
-            networkStream.Write(data, 0, data.Length);
-            
-
-            byte[] responce = new byte[256];
-            int k = networkStream.Read(responce, 0, 100);
-
-
-            string result = System.Text.Encoding.UTF8.GetString(responce);
-
-            */
         }
 
         public void disconnect()
@@ -72,12 +53,18 @@ namespace FlightSimulatorApp
 
         public string read()
         {
-            throw new NotImplementedException();
+            byte[] response = new byte[512];
+            int k = networkStream.Read(response, 0, 100);
+            string result = System.Text.Encoding.UTF8.GetString(response);
+
+            return result;
+
         }
 
         public void write(string command)
         {
-            throw new NotImplementedException();
+            Byte[] data = System.Text.Encoding.ASCII.GetBytes(command);
+            networkStream.Write(data, 0, data.Length);
         }
     }
 }

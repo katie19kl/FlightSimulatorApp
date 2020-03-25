@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlightSimulatorApp"
+        xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1200">
 
@@ -11,8 +13,11 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="475*"/>
             <ColumnDefinition Width="122*"/>
+
         </Grid.ColumnDefinitions>
-        <StackPanel HorizontalAlignment="Left" Height="319" Margin="663,352,0,-0.333" VerticalAlignment="Top" Width="530" Grid.ColumnSpan="2">
+
+        <StackPanel HorizontalAlignment="Left" Height="319" Margin="663,352,0,-0.333"
+                    VerticalAlignment="Top" Width="530" Grid.ColumnSpan="2" x:Name="Control_Navigator">
             <local:Joystick HorizontalAlignment="Left" Height="100"
                             VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.5,0.5" Margin="130,0,0,0"
                             x:Name="Joystick_Var">
@@ -25,16 +30,20 @@
                     </TransformGroup>
                 </local:Joystick.RenderTransform>
             </local:Joystick>
+
             <Slider x:Name="slider1ValuesMinus1To1" HorizontalAlignment="Left" VerticalAlignment="Top"
-                Height="35" Width="273" Margin="100,120,0,0" TickPlacement="BottomRight"
+                Height="35" Width="273" Margin="100,120,0,0" TickPlacement="BottomRight" Value="{Binding vm_Throttle}"
                     TickFrequency="0.25" Minimum="-1" Maximum="1" Foreground="Black" Background="#FFFFFA00">
                 <Slider.LayoutTransform>
                     <ScaleTransform ScaleX="1" ScaleY="3"/>
                 </Slider.LayoutTransform>
             </Slider>
+
+
             <Slider x:Name="slider2Values0To1"
-                Height="35" Width="228" TickPlacement="BottomRight" IsDirectionReversed="True"
-                TickFrequency="0.135" Minimum="0" Maximum="1" Foreground="Black" Background="#FFF5FF00" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="380,-190,-93,0">
+                Height="35" Width="228" TickPlacement="BottomRight" IsDirectionReversed="True" Value="{Binding vm_Airelon}"
+                TickFrequency="0.125" Minimum="0" Maximum="1" Foreground="Black" Background="#FFF5FF00" RenderTransformOrigin="0.5,0.5"
+                    HorizontalAlignment="Left" VerticalAlignment="Top" Margin="380,-190,-93,0">
                 <Slider.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -49,8 +58,32 @@
             </Slider>
         </StackPanel>
 
-
 
+        <m:Map 
+               Mode="Road" ZoomLevel="16" Center="32.0055 , 34.8854" Margin="0,0,238,0">
+            <Canvas m:MapLayer.Position="32.0055 , 34.8854"
+        m:MapLayer.PositionOrigin="BottomCenter" Margin="-5,0,0,-2" RenderTransformOrigin="0.5,0.5">
+                <Canvas.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Canvas.RenderTransform>
+                <materialDesign:PackIcon x:Name="my_AirCraft" Kind="Plane" Width="274" Height="236" Foreground="#FF3C3C3C"
+                                         Canvas.Left="-225" RenderTransformOrigin="0.5,0.5" Canvas.Top="-101">
+                    <materialDesign:PackIcon.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>   
+                            <SkewTransform/>
+                            <RotateTransform Angle="58.669"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </materialDesign:PackIcon.RenderTransform>
+                </materialDesign:PackIcon>
+            </Canvas>
+        </m:Map>
     </Grid>
 
 </Window>
