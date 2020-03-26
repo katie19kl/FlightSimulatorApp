@@ -197,7 +197,7 @@ namespace FlightSimulatorApp
                     string altitude = "get /instrumentation/gps/indicated-altitude-ft\n";
                     string roll = "get /instrumentation/attitude-indicator/internal-roll-deg\n";
                     string pitch = "get /instrumentation/attitude-indicator/internal-pitch-deg\n";
-                    string altimeter = "get /instrumentation/altimeter/indicated-altitude-ft\n";
+                    string altimeter = "get /instrumentation/altimeter/indicated-altitude-ft\n"; //same as first!!!!
                     string heading = "get /instrumentation/heading-indicator/indicated-heading-deg\n";
                     string groundSpeed = "get /instrumentation/gps/indicated-ground-speed-kt\n";
                     string verticalSpeed = "get /instrumentation/gps/indicated-vertical-speed\n";*/
@@ -209,14 +209,33 @@ namespace FlightSimulatorApp
                     + "get /instrumentation/altimeter/indicated-altitude-ft\n"
                     + "get /instrumentation/heading-indicator/indicated-heading-deg\n"
                     + "get /instrumentation/gps/indicated-ground-speed-kt\n"
-                    + "get/instrumentation/gps/indicated-vertical-speed\n";
+                    + "get /instrumentation/gps/indicated-vertical-speed\n";
 
-                    /*string msg1 = "set /instrumentation/gps/indicated-vertical-speed 30\n";
-                    this.telnetClient.write(msg1);
+
+                    /*------------------------------------- TEST----------------------------------------------*/
+                    string set1 = "set /instrumentation/altimeter/indicated-altitude-ft 1\n";
+                    this.telnetClient.write(set1);
+                    string set2 = "set /instrumentation/gps/indicated-altitude-ft 2\n";
+                    this.telnetClient.write(set2);
+                    string set3 = "set /instrumentation/attitude-indicator/internal-roll-deg 3\n";
+                    this.telnetClient.write(set3);
+                    string set4 = "set /instrumentation/attitude-indicator/internal-pitch-deg 4\n";
+                    this.telnetClient.write(set4);
+                    string set5 = "set /instrumentation/altimeter/indicated-altitude-ft 5\n";
+                    this.telnetClient.write(set5);
+                    string set6 = "set /instrumentation/heading-indicator/indicated-heading-deg 6\n";
+                    this.telnetClient.write(set6);
+                    string set7 = "set /instrumentation/gps/indicated-ground-speed-kt 7\n";
+                    this.telnetClient.write(set7);
+                    string set8 = "set /instrumentation/gps/indicated-vertical-speed7\n";
+                    this.telnetClient.write(set8);
+
                     string answer1 = telnetClient.read();
-                    int index = answer1.IndexOf("\0");
-                    string sub = answer1.Substring(0, index - 1);
-                    this.verticalSpeed = Double.Parse(sub);*/ //could be deleted
+                    string[] values1 = parseAnswer(answer1);
+                    setValues(values1);
+
+                    /*------------------------------------- TEST----------------------------------------------*/
+
 
                     this.telnetClient.write(msg);
 
@@ -249,44 +268,47 @@ namespace FlightSimulatorApp
          */
         private void setValues(string[] values)
         {
-            if(values[0] != "ERR") //airSpeed
+            if(values.Length == 8)
             {
-                this.airSpeed = Double.Parse(values[0]);
-            }
-            
-            if (values[1] != "ERR") //altitude
-            {
-                this.altitude = Double.Parse(values[1]);
-            }
+                if (values[0] != "ERR") //airSpeed
+                {
+                    this.AirSpeed = Double.Parse(values[0]);
+                }
 
-            if (values[2] != "ERR") //roll
-            {
-                this.roll = Double.Parse(values[2]);
-            }
+                if (values[1] != "ERR") //altitude
+                {
+                    this.Altitude = Double.Parse(values[1]);
+                }
 
-            if (values[3] != "ERR") //pitch
-            {
-                this.pitch = Double.Parse(values[3]);
-            }
+                if (values[2] != "ERR") //roll
+                {
+                    this.Roll = Double.Parse(values[2]);
+                }
 
-            if (values[4] != "ERR") //altimeter
-            {
-                this.altimeter = Double.Parse(values[4]);
-            }
+                if (values[3] != "ERR") //pitch
+                {
+                    this.Pitch = Double.Parse(values[3]);
+                }
 
-            if (values[5] != "ERR") //heading
-            {
-                this.heading = Double.Parse(values[5]);
-            }
+                if (values[4] != "ERR") //altimeter
+                {
+                    this.Altimeter = Double.Parse(values[4]);
+                }
 
-            if (values[6] != "ERR") //groundSpeed
-            {
-                this.groundSpeed = Double.Parse(values[6]);
-            }
+                if (values[5] != "ERR") //heading
+                {
+                    this.Heading = Double.Parse(values[5]);
+                }
 
-            if (values[7] != "ERR") //verticalSpeed
-            {
-                this.verticalSpeed = Double.Parse(values[7]);
+                if (values[6] != "ERR") //groundSpeed
+                {
+                    this.GroundSpeed = Double.Parse(values[6]);
+                }
+
+                if (values[7] != "ERR") //verticalSpeed
+                {
+                    this.VerticalSpeed = Double.Parse(values[7]);
+                }
             }
         }
     }

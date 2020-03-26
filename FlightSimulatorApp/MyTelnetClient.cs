@@ -57,6 +57,8 @@ namespace FlightSimulatorApp
             int k = networkStream.Read(response, 0, 100);
             string result = System.Text.Encoding.UTF8.GetString(response);
 
+            networkStream.Flush();
+
             return result;
 
         }

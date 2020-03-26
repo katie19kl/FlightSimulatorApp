@@ -30,7 +30,9 @@ namespace FlightSimulatorApp
             simulatorModel.connect("127.0.0.1", "7777");
             VM_Navigator_Controller viewModelController = new VM_Navigator_Controller(simulatorModel);
             MapViewModel mapViewModel = new MapViewModel(simulatorModel);
-            this.DataContext = viewModelController;
+            SensorsViewModel sensorsViewModel = new SensorsViewModel(simulatorModel);
+
+            this.DataContext = sensorsViewModel;
             this.Joystick_Var.SetVM(viewModelController);
 
             simulatorModel.start();
