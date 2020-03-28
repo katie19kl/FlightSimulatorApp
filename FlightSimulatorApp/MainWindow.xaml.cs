@@ -32,14 +32,11 @@ namespace FlightSimulatorApp
 
             VM_Map vmMap = new VM_Map(simulatorModel);
 
-            VM_Navigator_Controller vmController = new VM_Navigator_Controller();
+            VM_Navigator_Controller vmController = new VM_Navigator_Controller(simulatorModel);
             Joystick_Var.SetVM(vmController);
 
 
-            simulatorModel.connect("127.0.0.1", "7777");
-            simulatorModel.start();
-
-
+        
             DataContext = new
             {
                 vmMap,
@@ -47,7 +44,10 @@ namespace FlightSimulatorApp
                 vmController
             };
 
+            simulatorModel.connect("127.0.0.1", "7777");
             simulatorModel.start();
+
+
         }
 
         private void Joystick_Loaded(object sender, RoutedEventArgs e)

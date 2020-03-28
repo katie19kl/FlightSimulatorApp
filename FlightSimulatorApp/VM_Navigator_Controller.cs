@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.ComponentModel;
 
 namespace FlightSimulatorApp
 {
     public class VM_Navigator_Controller : INotifyPropertyChanged
     {
+        private IFlightSimulatorModel model;
 
-        public VM_Navigator_Controller()
+        public VM_Navigator_Controller(IFlightSimulatorModel simulatorModel)
         {
-
+            this.model = simulatorModel;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -24,6 +26,9 @@ namespace FlightSimulatorApp
             set
             {
                 vm_rudder = value;
+                this.model.Rudder = value;
+                string msg = "set /controls/flight/rudder " + value.ToString() + "\n";
+                model.sendSetRequest(msg);
                 this.NotifyPropertyChanged("vm_Rudder");
             }
         }
@@ -37,6 +42,9 @@ namespace FlightSimulatorApp
             set
             {
                 vm_elevator = value;
+                this.model.Elevator = value;
+                string msg = "set /controls/flight/elevator " + value.ToString() + "\n";
+                model.sendSetRequest(msg);
                 this.NotifyPropertyChanged("vm_Elevator");
             }
         }
@@ -48,7 +56,10 @@ namespace FlightSimulatorApp
             set
             {
                 vm_aileron = value;
-                this.NotifyPropertyChanged("vm_Airelon");
+                this.model.Aileron = value;
+                string msg = "set /controls/flight/aileron " + value.ToString() + "\n";
+                model.sendSetRequest(msg);
+                this.NotifyPropertyChanged("vm_Aileron");
             }
         }
 
@@ -59,6 +70,9 @@ namespace FlightSimulatorApp
             set
             {
                 vm_throttle = value;
+                this.model.Throttle = value;
+                string msg = "set /controls/engines/current-engine/throttle " + value.ToString() + "\n";
+                model.sendSetRequest(msg);
                 this.NotifyPropertyChanged("vm_Throttle");
             }
         }

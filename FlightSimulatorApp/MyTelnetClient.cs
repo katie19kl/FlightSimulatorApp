@@ -16,8 +16,6 @@ namespace FlightSimulatorApp
 
         public bool connect(string ip, int port)
         {
-            //string message_SET_THROTTLE = "set /controls/engines/current-engine/throttle 10\n";
-
             try
             {
                 isConnected = true;
@@ -53,20 +51,27 @@ namespace FlightSimulatorApp
 
         public string read()
         {
-            byte[] response = new byte[512];
-            int k = networkStream.Read(response, 0, 512);
+
+            byte[] response = new byte[256];
+            int k = networkStream.Read(response, 0, 256);
             string result = System.Text.Encoding.UTF8.GetString(response);
 
             networkStream.Flush();
 
             return result;
+            
+            
 
         }
 
         public void write(string command)
         {
+
+
             Byte[] data = System.Text.Encoding.ASCII.GetBytes(command);
             networkStream.Write(data, 0, data.Length);
+            
+           
         }
     }
 }

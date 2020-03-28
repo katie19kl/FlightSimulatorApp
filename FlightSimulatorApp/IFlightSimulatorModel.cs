@@ -71,11 +71,22 @@ namespace FlightSimulatorApp
             get; set;
         }
 
+        double Aileron
+        {
+            get; set;
+        }
+
+        double Throttle
+        {
+            get; set;
+        }
+
         bool connect(string ip, string port);
 
         void disconnect();
 
         void start();
-        
+
+        void sendSetRequest(string sendRequest);
     }
 }
