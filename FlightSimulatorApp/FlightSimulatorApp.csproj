@@ -78,8 +78,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MapViewModel.cs" />
-    <Compile Include="SensorsViewModel.cs" />
+    <Compile Include="VM_Map.cs" />
+    <Compile Include="VM_Sensor.cs" />
     <Compile Include="VM_Navigator_Controller.cs" />
     <Compile Include="IFlightSimulatorModel.cs" />
     <Compile Include="ITelnetClient.cs" />

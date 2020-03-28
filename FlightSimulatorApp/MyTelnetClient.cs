@@ -54,7 +54,7 @@ namespace FlightSimulatorApp
         public string read()
         {
             byte[] response = new byte[512];
-            int k = networkStream.Read(response, 0, 100);
+            int k = networkStream.Read(response, 0, 512);
             string result = System.Text.Encoding.UTF8.GetString(response);
 
             networkStream.Flush();

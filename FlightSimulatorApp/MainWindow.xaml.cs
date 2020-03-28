@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maps.MapControl.WPF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,18 +26,28 @@ namespace FlightSimulatorApp
         public MainWindow()
         {
             InitializeComponent();
-            ITelnetClient telnetClient = new MyTelnetClient();
-            IFlightSimulatorModel simulatorModel = new MyFlightSimulatorModel(telnetClient);
+            IFlightSimulatorModel simulatorModel = new MyFlightSimulatorModel(new MyTelnetClient());
+
+            VM_Sensor vmSensor = new VM_Sensor(simulatorModel);
+
+            VM_Map vmMap = new VM_Map(simulatorModel);
+
+            VM_Navigator_Controller vmController = new VM_Navigator_Controller();
+            Joystick_Var.SetVM(vmController);
+
+
             simulatorModel.connect("127.0.0.1", "7777");
-            VM_Navigator_Controller viewModelController = new VM_Navigator_Controller(simulatorModel);
-            MapViewModel mapViewModel = new MapViewModel(simulatorModel);
-            SensorsViewModel sensorsViewModel = new SensorsViewModel(simulatorModel);
-
-            this.DataContext = sensorsViewModel;
-            this.Joystick_Var.SetVM(viewModelController);
-
             simulatorModel.start();
 
+
+            DataContext = new
+            {
+                vmMap,
+                vmSensor,
+                vmController
+            };
+
+            simulatorModel.start();
         }
 
         private void Joystick_Loaded(object sender, RoutedEventArgs e)

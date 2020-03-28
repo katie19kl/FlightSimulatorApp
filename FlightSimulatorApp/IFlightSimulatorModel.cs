@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using Microsoft.Maps.MapControl.WPF;
 
 namespace FlightSimulatorApp
 {
@@ -56,6 +57,16 @@ namespace FlightSimulatorApp
         }
 
         double VerticalSpeed
+        {
+            get; set;
+        }
+
+        double Latitude
+        {
+            get; set;
+        }
+
+        double Longitude
         {
             get; set;
         }

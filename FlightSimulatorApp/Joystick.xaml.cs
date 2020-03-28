@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Media;
 
+
 namespace FlightSimulatorApp
 {
     public partial class Joystick
@@ -23,6 +24,11 @@ namespace FlightSimulatorApp
 
 
         public bool mouseIsPressed = false;
+
+
+
+
+
 
         private double dummyDoubleWidth;
 
@@ -65,7 +71,6 @@ namespace FlightSimulatorApp
         {
 
         }
-
         private void MouseMove_J(object sender, System.Windows.Input.MouseEventArgs e)
         {
             position = e.GetPosition(dummy_centre);
@@ -75,20 +80,23 @@ namespace FlightSimulatorApp
 
             if (mouseIsPressed)
             {
-
+                // if point inside maagal
                 checkBoard = (Math.Pow(x1 + knobPosition.X - initX, 2) +
-                    Math.Pow(y1 + knobPosition.Y - initY, 2)) 
-                    <= Math.Pow(radius_Outside - radius_Small + lookBetter, 2);
+                    Math.Pow(y1 + knobPosition.Y - initY, 2)) <= Math.Pow(radius_Outside - radius_Small + lookBetter, 2);
 
-                if (checkBoard)
+                if (checkBoard)// if it does
                 {
+                    // moving inside
                     knobPosition.X += x1;
                     knobPosition.Y += y1;
 
+
+
+                    // getting position relatively to (0,0) in centere
                     position_TO_MOVE = getTruePoint(e.GetPosition(OuttestEllipse));
-                    // may be radius be added
 
 
+                    //calculation to get needed range 
                     calculatedRudder = (position_TO_MOVE.X) / (radius_Outside + lookBetter - radius_Small - dummyDoubleWidth);
                     calculatedRudder = Math.Round(calculatedRudder, 3);
                     this.vm.vm_Rudder = calculatedRudder;
@@ -100,6 +108,7 @@ namespace FlightSimulatorApp
                 }
             }
         }
+        //when button of mouse was freed
         public void SetPiptickToCenter()
         {
             knobPosition.X = initX;
@@ -107,7 +116,7 @@ namespace FlightSimulatorApp
             knobPosition.Y = initY;
             this.vm.vm_Elevator = initY;
         }
-
+        //mouse leave and entry with button pressed
         private void MouseReturnToJOY(object sender, MouseEventArgs e)
         {
             Point position = e.GetPosition(dummy_centre);
@@ -119,7 +128,7 @@ namespace FlightSimulatorApp
                 knobPosition.Y -= -position.Y;
             }
         }
-
+        // to get relatively to (0,0)
         private Point getTruePoint(Point pointToCorrect)
         {
             double xToSet = 0, yToSet = 0;
@@ -168,11 +177,6 @@ namespace FlightSimulatorApp
             }
 
             return new Point(xToSet, yToSet);
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
     }
 

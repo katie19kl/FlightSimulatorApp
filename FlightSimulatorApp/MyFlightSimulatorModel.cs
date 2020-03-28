@@ -32,7 +32,7 @@ namespace FlightSimulatorApp
         }
 
         public double Rudder
-        { 
+        {
             get
             {
                 return this.rudder;
@@ -45,7 +45,7 @@ namespace FlightSimulatorApp
             }
         }
         public double Elevator
-        { 
+        {
             get
             {
                 return this.elevator;
@@ -72,7 +72,7 @@ namespace FlightSimulatorApp
             }
         }
 
-        public double Altitude 
+        public double Altitude
         {
             get
             {
@@ -86,7 +86,8 @@ namespace FlightSimulatorApp
             }
         }
 
-        public double Roll {
+        public double Roll
+        {
             get
             {
                 return this.roll;
@@ -127,7 +128,8 @@ namespace FlightSimulatorApp
             }
         }
 
-        public double Heading {
+        public double Heading
+        {
             get
             {
                 return this.heading;
@@ -140,7 +142,8 @@ namespace FlightSimulatorApp
             }
         }
 
-        public double GroundSpeed {
+        public double GroundSpeed
+        {
             get
             {
                 return this.groundSpeed;
@@ -153,7 +156,8 @@ namespace FlightSimulatorApp
             }
         }
 
-        public double VerticalSpeed {
+        public double VerticalSpeed
+        {
             get
             {
                 return this.verticalSpeed;
@@ -166,11 +170,40 @@ namespace FlightSimulatorApp
             }
         }
 
+        private double latitude;
+        public double Latitude
+        {
+            get
+            {
+                return this.latitude;
+            }
+
+            set
+            {
+                this.latitude = value;
+                NotifyPropertyChanged("Latitude");
+            }
+        }
+        private double longitude;
+        public double Longitude
+        {
+            get
+            {
+                return this.longitude;
+            }
+
+            set
+            {
+                this.longitude = value;
+                NotifyPropertyChanged("Longitude");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName)
         {
-            if(this.PropertyChanged != null)
+            if (this.PropertyChanged != null)
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
@@ -190,59 +223,71 @@ namespace FlightSimulatorApp
 
         public void start()
         {
+
+
+
+
             new Thread(delegate () {
+                Random rnd = new Random();
                 while (!stop)
                 {
-                    /*string airSpeed = "get /instrumentation/altimeter/indicated-altitude-ft\n";
-                    string altitude = "get /instrumentation/gps/indicated-altitude-ft\n";
-                    string roll = "get /instrumentation/attitude-indicator/internal-roll-deg\n";
-                    string pitch = "get /instrumentation/attitude-indicator/internal-pitch-deg\n";
-                    string altimeter = "get /instrumentation/altimeter/indicated-altitude-ft\n"; //same as first!!!!
-                    string heading = "get /instrumentation/heading-indicator/indicated-heading-deg\n";
-                    string groundSpeed = "get /instrumentation/gps/indicated-ground-speed-kt\n";
-                    string verticalSpeed = "get /instrumentation/gps/indicated-vertical-speed\n";*/
 
-                    string msg = "get /instrumentation/altimeter/indicated-altitude-ft\n"
-                    + "get /instrumentation/gps/indicated-altitude-ft\n" 
-                    + "get /instrumentation/attitude-indicator/internal-roll-deg\n"
-                    + "get /instrumentation/attitude-indicator/internal-pitch-deg\n" 
-                    + "get /instrumentation/altimeter/indicated-altitude-ft\n"
-                    + "get /instrumentation/heading-indicator/indicated-heading-deg\n"
-                    + "get /instrumentation/gps/indicated-ground-speed-kt\n"
-                    + "get /instrumentation/gps/indicated-vertical-speed\n";
-
-
-                    /*------------------------------------- TEST----------------------------------------------*/
-                    string set1 = "set /instrumentation/altimeter/indicated-altitude-ft 1\n";
-                    this.telnetClient.write(set1);
-                    string set2 = "set /instrumentation/gps/indicated-altitude-ft 2\n";
-                    this.telnetClient.write(set2);
-                    string set3 = "set /instrumentation/attitude-indicator/internal-roll-deg 3\n";
-                    this.telnetClient.write(set3);
-                    string set4 = "set /instrumentation/attitude-indicator/internal-pitch-deg 4\n";
-                    this.telnetClient.write(set4);
-                    string set5 = "set /instrumentation/altimeter/indicated-altitude-ft 5\n";
-                    this.telnetClient.write(set5);
-                    string set6 = "set /instrumentation/heading-indicator/indicated-heading-deg 6\n";
-                    this.telnetClient.write(set6);
-                    string set7 = "set /instrumentation/gps/indicated-ground-speed-kt 7\n";
-                    this.telnetClient.write(set7);
-                    string set8 = "set /instrumentation/gps/indicated-vertical-speed7\n";
-                    this.telnetClient.write(set8);
-
-                    string answer1 = telnetClient.read();
-                    string[] values1 = parseAnswer(answer1);
-                    setValues(values1);
-
-                    /*------------------------------------- TEST----------------------------------------------*/
+                    int num = rnd.Next(1000);
+                    double foo = num % 10;
+                    string airSpeed1 = "set /instrumentation/altimeter/indicated-altitude-ft" + " " + foo.ToString() + "\n";
+                    num = rnd.Next(1000);
+                    foo = num % 10;
+                    string altitude1 = "set /instrumentation/gps/indicated-altitude-ft" + " " + foo.ToString() + "\n";
+                    num = rnd.Next(1000);
+                    foo = num % 10;
+                    string roll1 = "set /instrumentation/attitude-indicator/internal-roll-deg" + " " + foo.ToString() + "\n";
+                    num = rnd.Next(1000);
+                    foo = num % 10;
+                    string pitch1 = "set /instrumentation/attitude-indicator/internal-pitch-deg" + " " + foo.ToString() + "\n";
+                    num = rnd.Next(1000);
+                    foo = num % 10;
+                    string altimeter1 = "set /instrumentation/altimeter/indicated-altitude-ft" + " " + foo.ToString() + "\n";
+                    num = rnd.Next(1000);
+                    foo = num % 10;
+                    string heading1 = "set /instrumentation/heading-indicator/indicated-heading-deg" + " " + foo.ToString() + "\n";
+                    num = rnd.Next(1000);
+                    foo = num % 10;
+                    string groundSpeed1 = "set /instrumentation/gps/indicated-ground-speed-kt" + " " + foo.ToString() + "\n";
+                    num = rnd.Next(1000);
+                    foo = num % 10;
+                    string verticalSpeed1 = "set /instrumentation/gps/indicated-vertical-speed" + " " + foo.ToString() + "\n";
 
 
-                    this.telnetClient.write(msg);
+
+                    foo = rnd.NextDouble() * (32 - 31) + 31;
+                    string latitude = "set /position/latitude-deg" + " " + foo.ToString() + "\n";
+
+
+                    foo = rnd.NextDouble() * (32 - 31) + 31;
+                    string longitude = "set /position/longitude-deg" + " " + foo.ToString() + "\n";
+
+
+                    this.telnetClient.write(airSpeed1);
+                    this.telnetClient.write(altitude1);
+                    this.telnetClient.write(roll1);
+                    this.telnetClient.write(pitch1);
+                    this.telnetClient.write(altimeter1);
+                    this.telnetClient.write(heading1);
+                    this.telnetClient.write(groundSpeed1);
+                    this.telnetClient.write(verticalSpeed1);
+
+                    this.telnetClient.write(latitude);
+                    this.telnetClient.write(longitude);
+
+                    Thread.Sleep(125);
+
 
                     string answer = this.telnetClient.read();
                     string[] values = parseAnswer(answer);
                     setValues(values);
-                    Thread.Sleep(125);// read the data in 4Hz
+
+                    //Thread.Sleep(125);
+                    // Thread.Sleep(1);// read the data in 4Hz
                 }
             }).Start();
 
@@ -254,8 +299,8 @@ namespace FlightSimulatorApp
             int index = answer.IndexOf("\0");
             string subStr = answer.Substring(0, index);
             string[] values = subStr.Split('\n');
-            
-            if(values[values.Length - 1] == "")
+
+            if (values[values.Length - 1] == "")
             {
                 Array.Resize(ref values, values.Length - 1);
             }
@@ -268,7 +313,7 @@ namespace FlightSimulatorApp
          */
         private void setValues(string[] values)
         {
-            if(values.Length == 8)
+            if(values.Length == 10)
             {
                 if (values[0] != "ERR") //airSpeed
                 {
@@ -308,6 +353,16 @@ namespace FlightSimulatorApp
                 if (values[7] != "ERR") //verticalSpeed
                 {
                     this.VerticalSpeed = Double.Parse(values[7]);
+                }
+
+                if (values[8] != "ERR") //verticalSpeed
+                {
+                    this.Latitude = Double.Parse(values[8]);
+                }
+                if (values[9] != "ERR") //verticalSpeed
+                {
+
+                    this.Longitude = Double.Parse(values[9]);
                 }
             }
         }
