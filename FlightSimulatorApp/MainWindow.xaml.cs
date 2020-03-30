@@ -1,5 +1,4 @@
-﻿using Microsoft.Maps.MapControl.WPF;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using Microsoft.Maps.MapControl.WPF;
+using System.Configuration;
+using System.Windows.Threading;
 
 namespace FlightSimulatorApp
 {
@@ -26,17 +27,18 @@ namespace FlightSimulatorApp
         public MainWindow()
         {
             InitializeComponent();
-            IFlightSimulatorModel simulatorModel = new MyFlightSimulatorModel(new MyTelnetClient());
+            IFlightSimulatorModel myFlightSimulatorModel = new MyFlightSimulatorModel(new MyTelnetClient());
 
-            VM_Sensor vmSensor = new VM_Sensor(simulatorModel);
 
-            VM_Map vmMap = new VM_Map(simulatorModel);
+            VM_Sensor vmSensor = new VM_Sensor(myFlightSimulatorModel);
 
-            VM_Navigator_Controller vmController = new VM_Navigator_Controller(simulatorModel);
+            VM_Map vmMap = new VM_Map(myFlightSimulatorModel);            
+
+            VM_Navigator_Controller vmController = new VM_Navigator_Controller(myFlightSimulatorModel);
+
             Joystick_Var.SetVM(vmController);
-
-
-        
+            Sensors_Var.SetVM(vmSensor);
+            
             DataContext = new
             {
                 vmMap,
@@ -44,31 +46,31 @@ namespace FlightSimulatorApp
                 vmController
             };
 
-            simulatorModel.connect("127.0.0.1", "7777");
-            simulatorModel.start();
+            UserInput popUpInput = new UserInput();
+            popUpInput.ShowDialog();
 
+            string port = ConfigurationManager.AppSettings.Get("Port");
+            string ip = ConfigurationManager.AppSettings.Get("IP");
+
+            /*Warnings.Content = "Whatever";
+            var timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(5);
+            timer.Tick += delegate { Warnings.Content = String.Empty; };
+            timer.Start();*/
+
+
+            myFlightSimulatorModel.connect(ip, port);
+            myFlightSimulatorModel.start();
 
         }
 
-        private void Joystick_Loaded(object sender, RoutedEventArgs e)
-        {
+        private void Joystick_Loaded(object sender, RoutedEventArgs e) { }
 
-        }
-
+        //For sake of joystick
         private void ButtonMouse_Up(object sender, MouseButtonEventArgs e)
         {
             this.Joystick_Var.SetPiptickToCenter();
             Joystick_Var.mouseIsPressed = false;
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-
         }
     }
 }

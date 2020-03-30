@@ -32,7 +32,7 @@ namespace FlightSimulatorApp
         {
             get
             {
-                //returns new location to XAML with updated paramete (here we dont know what was changed)
+                //returns new location to XAML with updated parameters (here we dont know what was changed)
                 return new Location(model.Latitude, model.Longitude);
 
             }
@@ -42,10 +42,11 @@ namespace FlightSimulatorApp
             }
 
         }
-        /*When one of parametres was updated 
-         * in set in THAT parametre we are
+        /*
+         * When one of parameters was updated 
+         * in set in THAT parameter we are
          * calling notify property of Location
-         * to update it on Map
+         * to update it on the Map
          */
         private double latitude;
         public double vm_Latitude

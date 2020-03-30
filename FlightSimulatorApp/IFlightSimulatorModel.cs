@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using Microsoft.Maps.MapControl.WPF;
+using System.Windows.Controls;
 
 namespace FlightSimulatorApp
 {
@@ -88,5 +89,7 @@ namespace FlightSimulatorApp
         void start();
 
         void sendSetRequest(string sendRequest);
+
+        void showIndicationOnScreen(string warningMsg);
     }
 }

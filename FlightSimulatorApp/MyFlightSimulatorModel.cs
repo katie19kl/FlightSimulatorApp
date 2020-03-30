@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Threading;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace FlightSimulatorApp
 {
@@ -13,8 +15,11 @@ namespace FlightSimulatorApp
     {
         private ITelnetClient telnetClient;
         private static Mutex mut1 = new Mutex();
-        private static Mutex mut2 = new Mutex();
         volatile bool stop;
+        private string warningString;
+        private DispatcherTimer timer;
+
+
 
         private double rudder;
         private double elevator;
@@ -33,6 +38,23 @@ namespace FlightSimulatorApp
         {
             this.telnetClient = MyTelnetClient;
             stop = false;
+            this.timer = new DispatcherTimer();
+            this.timer.Interval = TimeSpan.FromSeconds(3); //showing msg on screen for 5 seconds
+            this.timer.Tick += delegate { this.WarningString = String.Empty; }; //removing msg
+        }
+
+        public string WarningString
+        {
+            get
+            {
+                return this.warningString;
+            }
+
+            set
+            {
+                this.warningString = value;
+                NotifyPropertyChanged("WarningString");
+            }
         }
 
         public double Rudder
@@ -175,6 +197,7 @@ namespace FlightSimulatorApp
         }
 
         private double latitude;
+
         public double Latitude
         {
             get
@@ -188,7 +211,9 @@ namespace FlightSimulatorApp
                 NotifyPropertyChanged("Latitude");
             }
         }
+
         private double longitude;
+
         public double Longitude
         {
             get
@@ -311,48 +336,79 @@ namespace FlightSimulatorApp
                     if(answer != "ERR")
                     {
                         this.AirSpeed = Double.Parse(answer);
+                    } else
+                    {
+                        showIndicationOnScreen("Error when receiving AirSpeed value");
                     }
+
                     this.telnetClient.write(altitude1);
                     answer = this.telnetClient.read().Split('\n')[0];
                     if (answer != "ERR")
                     {
                         this.Altitude = Double.Parse(answer);
+                    } else
+                    {
+                        showIndicationOnScreen("Error when receiving Altitude value");
                     }
+
                     this.telnetClient.write(roll1);
                     answer = this.telnetClient.read().Split('\n')[0];
                     if (answer != "ERR")
                     {
                         this.Roll = Double.Parse(answer);
+                    } else
+                    {
+                        showIndicationOnScreen("Error when receiving Roll value");
                     }
+
                     this.telnetClient.write(pitch1);
                     answer = this.telnetClient.read().Split('\n')[0];
                     if (answer != "ERR")
                     {
                         this.Pitch = Double.Parse(answer);
+                    } else
+                    {
+                        showIndicationOnScreen("Error when receiving Pitch value");
                     }
+
                     this.telnetClient.write(altimeter1);
                     answer = this.telnetClient.read().Split('\n')[0];
                     if (answer != "ERR")
                     {
                         this.Altimeter = Double.Parse(answer);
+                    } else
+                    {
+                        showIndicationOnScreen("Error when receiving Altimeter value");
                     }
+
                     this.telnetClient.write(heading1);
                     answer = this.telnetClient.read().Split('\n')[0];
                     if (answer != "ERR")
                     {
                         this.Heading = Double.Parse(answer);
+                    } else
+                    {
+                        showIndicationOnScreen("Error when receiving Heading value");
                     }
+
                     this.telnetClient.write(groundSpeed1);
                     answer = this.telnetClient.read().Split('\n')[0];
                     if (answer != "ERR")
                     {
                         this.GroundSpeed = Double.Parse(answer);
+                    } else
+                    {
+                        showIndicationOnScreen("Error when receiving GroundSpeed value");
                     }
+
                     this.telnetClient.write(verticalSpeed1);
                     answer = this.telnetClient.read().Split('\n')[0];
                     if (answer != "ERR")
                     {
                         this.VerticalSpeed = Double.Parse(answer);
+                    } else
+                    {
+                        showIndicationOnScreen("Error when receiving VerticalSpeed value");
                     }
 
                     this.telnetClient.write(latitude1);
@@ -360,97 +416,34 @@ namespace FlightSimulatorApp
                     if (answer != "ERR")
                     {
                         this.Latitude = Double.Parse(answer);
+                    } else
+                    {
+                        showIndicationOnScreen("Error when receiving Latitude value");
                     }
+
                     this.telnetClient.write(longitude1);
                     answer = this.telnetClient.read().Split('\n')[0];
                     if (answer != "ERR")
                     {
                         this.Longitude = Double.Parse(answer);
+                    } else
+                    {
+                        showIndicationOnScreen("Error when receiving Longitude value");
                     }
 
                     mut1.ReleaseMutex();
 
 
                     Thread.Sleep(125);
-
-                    //string answer = this.telnetClient.read();
-
-                    //string[] values = parseAnswer(answer);
-                    //setValues(values);
                 }
             }).Start();
 
         }
 
-        /*lexer- divides into tokens->each token is a string representing the value of a member */
-        private string[] parseAnswer(string answer)
+        public void showIndicationOnScreen(string warningMsg)
         {
-            int index = answer.IndexOf("\0");
-            string subStr = answer.Substring(0, index);
-            string[] values = subStr.Split('\n');
-
-            if (values[values.Length - 1] == "")
-            {
-                Array.Resize(ref values, values.Length - 1);
-            }
-
-            return values;
-        }
-
-        /* Parser- converts to Double and sets the values.
-         * In case of a value=ERR, do nothing-> stays with previous value.
-         */
-        private void setValues(string[] values)
-        {
-            if (values[0] != "ERR") //airSpeed
-            {
-                this.AirSpeed = Double.Parse(values[0]);
-            }
-
-            if (values[1] != "ERR") //altitude
-            {
-                this.Altitude = Double.Parse(values[1]);
-            }
-
-            if (values[2] != "ERR") //roll
-            {
-                this.Roll = Double.Parse(values[2]);
-            }
-
-            if (values[3] != "ERR") //pitch
-            {
-                this.Pitch = Double.Parse(values[3]);
-            }
-
-            if (values[4] != "ERR") //altimeter
-            {
-                this.Altimeter = Double.Parse(values[4]);
-            }
-
-            if (values[5] != "ERR") //heading
-            {
-                this.Heading = Double.Parse(values[5]);
-            }
-
-            if (values[6] != "ERR") //groundSpeed
-            {
-                this.GroundSpeed = Double.Parse(values[6]);
-            }
-
-            if (values[7] != "ERR") //verticalSpeed
-            {
-                this.VerticalSpeed = Double.Parse(values[7]);
-            }
-
-            if (values[8] != "ERR") //verticalSpeed
-            {
-                this.Latitude = Double.Parse(values[8]);
-            }
-            if (values[9] != "ERR") //verticalSpeed
-            {
-
-                this.Longitude = Double.Parse(values[9]);
-            }
+            this.WarningString = warningMsg;
+            timer.Start();
         }
 
         public void sendSetRequest(string setRequest)
@@ -468,5 +461,6 @@ namespace FlightSimulatorApp
                 //do something!! - msg to the screen
             }
         }
+
     }
 }

@@ -59,7 +59,7 @@ namespace FlightSimulatorApp
                 this.model.Aileron = value;
                 string msg = "set /controls/flight/aileron " + value.ToString() + "\n";
                 model.sendSetRequest(msg);
-                this.NotifyPropertyChanged("vm_Aileron");
+                this.NotifyPropertyChanged("vm_Airelon");
             }
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
+using System.IO;
 
 namespace FlightSimulatorApp
 {
@@ -23,6 +24,7 @@ namespace FlightSimulatorApp
                 tcpClient.Connect(ip, port);
 
                 this.networkStream = tcpClient.GetStream();
+                this.networkStream.ReadTimeout = 5000; //5 seconds
                 return isConnected;
 
             } catch (SocketException e)
@@ -51,27 +53,26 @@ namespace FlightSimulatorApp
 
         public string read()
         {
+            try
+            {
+                byte[] response = new byte[256];
+                int k = networkStream.Read(response, 0, 256);
+                string result = System.Text.Encoding.UTF8.GetString(response);
 
-            byte[] response = new byte[256];
-            int k = networkStream.Read(response, 0, 256);
-            string result = System.Text.Encoding.UTF8.GetString(response);
+                networkStream.Flush();
 
-            networkStream.Flush();
+                return result;
 
-            return result;
-            
-            
-
+            } catch (IOException) //in case of a timeout
+            {
+                return "ERR\n";
+            }                    
         }
 
         public void write(string command)
         {
-
-
             Byte[] data = System.Text.Encoding.ASCII.GetBytes(command);
-            networkStream.Write(data, 0, data.Length);
-            
-           
+            networkStream.Write(data, 0, data.Length);                       
         }
     }
 }

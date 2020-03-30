@@ -25,11 +25,6 @@ namespace FlightSimulatorApp
 
         public bool mouseIsPressed = false;
 
-
-
-
-
-
         private double dummyDoubleWidth;
 
         private double radius_Small;

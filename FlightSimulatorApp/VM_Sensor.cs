@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace FlightSimulatorApp
 {
-    class VM_Sensor : INotifyPropertyChanged
+    public class VM_Sensor : INotifyPropertyChanged
     {
         private double vm_airSpeed; //8 values from here!
         private double vm_altitude;
