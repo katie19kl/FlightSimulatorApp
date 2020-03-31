@@ -28,12 +28,10 @@ namespace FlightSimulatorApp
                 vm_rudder = value;
                 this.model.Rudder = value;
                 string msg = "set /controls/flight/rudder " + value.ToString() + "\n";
-                model.sendSetRequest(msg);
+                model.sendSetRequest(msg, "Rudder");
                 this.NotifyPropertyChanged("vm_Rudder");
             }
         }
-
-
 
         private double vm_elevator = 0;
         public double vm_Elevator
@@ -44,7 +42,7 @@ namespace FlightSimulatorApp
                 vm_elevator = value;
                 this.model.Elevator = value;
                 string msg = "set /controls/flight/elevator " + value.ToString() + "\n";
-                model.sendSetRequest(msg);
+                model.sendSetRequest(msg, "Elevator");
                 this.NotifyPropertyChanged("vm_Elevator");
             }
         }
@@ -58,7 +56,7 @@ namespace FlightSimulatorApp
                 vm_aileron = value;
                 this.model.Aileron = value;
                 string msg = "set /controls/flight/aileron " + value.ToString() + "\n";
-                model.sendSetRequest(msg);
+                model.sendSetRequest(msg, "Aileron");
                 this.NotifyPropertyChanged("vm_Airelon");
             }
         }
@@ -72,7 +70,7 @@ namespace FlightSimulatorApp
                 vm_throttle = value;
                 this.model.Throttle = value;
                 string msg = "set /controls/engines/current-engine/throttle " + value.ToString() + "\n";
-                model.sendSetRequest(msg);
+                model.sendSetRequest(msg, "Throttle");
                 this.NotifyPropertyChanged("vm_Throttle");
             }
         }

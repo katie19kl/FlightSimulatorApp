@@ -36,14 +36,18 @@ namespace FlightSimulatorApp
 
             VM_Navigator_Controller vmController = new VM_Navigator_Controller(myFlightSimulatorModel);
 
+            VM_Warnings vmWarnings = new VM_Warnings(myFlightSimulatorModel);
+
             Joystick_Var.SetVM(vmController);
             Sensors_Var.SetVM(vmSensor);
-            
+            MyWarningsIndicator.SetVM(vmWarnings);
+
             DataContext = new
             {
                 vmMap,
                 vmSensor,
-                vmController
+                vmController,
+                vmWarnings
             };
 
             UserInput popUpInput = new UserInput();

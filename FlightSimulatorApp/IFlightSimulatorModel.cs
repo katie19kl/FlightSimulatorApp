@@ -82,13 +82,18 @@ namespace FlightSimulatorApp
             get; set;
         }
 
+        string WarningString
+        {
+            get; set;
+        }
+
         bool connect(string ip, string port);
 
         void disconnect();
 
         void start();
 
-        void sendSetRequest(string sendRequest);
+        void sendSetRequest(string sendRequest, string varName);
 
         void showIndicationOnScreen(string warningMsg);
     }

@@ -37,7 +37,6 @@ namespace FlightSimulatorApp
             set
             {
                 this.ip = value;
-                ConfigurationManager.AppSettings.Set("IP", value);
             }
         }
 
@@ -51,7 +50,6 @@ namespace FlightSimulatorApp
             set
             {
                 this.port = value;
-                ConfigurationManager.AppSettings.Set("Port", value);
 
             }
         }
@@ -65,6 +63,10 @@ namespace FlightSimulatorApp
         {
             if (ip_valid && port_valid)
             {
+                ConfigurationManager.AppSettings.Set("IP", this.ip);
+                ConfigurationManager.AppSettings.Set("Port", this.port);
+
+
                 Close();
             }
         }
@@ -79,7 +81,7 @@ namespace FlightSimulatorApp
             this.IP = this.IP_txtBox.Text;
             bool isNumeric = false;
             int numericIP = 0;
-
+        
             //check if valid
             string[] nums = this.IP.Split('.');
 

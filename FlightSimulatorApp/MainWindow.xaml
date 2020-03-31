@@ -65,35 +65,13 @@
         </StackPanel>
 
 
-
         <m:Map CredentialsProvider="AttsGkqIHCOIEA11KtQZDphl5bi8lppin64jeg-ZOOhiS4cdHA_EXJwHSbyZi4Xo"
-                x:Name="my_map" Mode="Road" Center="32.0055, 34.8854" Margin="0,0,238,0" ScaleVisibility="Hidden" >
+                x:Name="my_map" Mode="Road" Center="32.0055, 34.8854" Margin="0,0,238,0" ScaleVisibility="Hidden"
+               ZoomLevel="1.125">
 
             <m:Pushpin  x:Name ="myPushPin"  Location ="{Binding  vmMap.vm_LocationPushPin, Mode=OneWay}" />
-
-
-            <TextBox HorizontalAlignment="Left" Height="40" FontSize="22" TextWrapping="Wrap" Text="{Binding vmMap.vm_Latitude, Mode=OneWay}"
-                     VerticalAlignment="Top" Width="147" Margin="212,68,0,0"/>
-            <TextBox HorizontalAlignment="Left" Height="39" FontSize="22" Margin="210,10,0,0" TextWrapping="Wrap" Text="{Binding vmMap.vm_Longitude, Mode=OneWay}"
-                     VerticalAlignment="Top" Width="146"/>
-            <Label Content="Longitutide is:" FontSize="22" Foreground="Black" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="154" Margin="10,10,0,0"/>
-            <Label Content="Langitutide is:" FontSize="22" Foreground="Black" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="154" Margin="10,66,0,0"/>
-
-
-
-            <Label Content="Rudder is:" FontSize="22" Foreground="Black" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="154" Margin="394,10,0,0"/>
-
-            <TextBox HorizontalAlignment="Left" Height="40" FontSize="22" TextWrapping="Wrap" Text="{Binding vmController.vm_Rudder, Mode=OneWay}"
-                     VerticalAlignment="Top" Width="147" Margin="555,10,0,0"/>
-
-            <Label Content="Aileron is:" FontSize="22" Foreground="Black" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="154" Margin="391,78,0,0"/>
-
-            <TextBox HorizontalAlignment="Left" Height="40" FontSize="22" TextWrapping="Wrap" Text="{Binding vmController.vm_Airelon, Mode=OneWay}"
-                     VerticalAlignment="Top" Width="147" Margin="555,79,0,0"/>
-
-
-
-
+            <local:Warning_Indicator HorizontalAlignment="Left" Height="301" VerticalAlignment="Top" Width="862"
+                                     Margin="-151,-140,0,0" x:Name="MyWarningsIndicator"/>
 
         </m:Map>
 

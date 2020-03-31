@@ -16,20 +16,21 @@ using System.Windows.Shapes;
 namespace FlightSimulatorApp
 {
     /// <summary>
-    /// Interaction logic for Sendors.xaml
+    /// Interaction logic for Warning_Indicator.xaml
     /// </summary>
-    public partial class Sensors : UserControl
+    public partial class Warning_Indicator : UserControl
     {
-        public VM_Sensor vmSensors;
+        public VM_Warnings vmWarnings;
 
-        public Sensors()
+
+        public Warning_Indicator()
         {
             InitializeComponent();
         }
 
-        public void SetVM(VM_Sensor vM_Sensor)
+        public void SetVM(VM_Warnings vm)
         {
-            this.vmSensors = vM_Sensor;
+            this.vmWarnings = vm;
         }
 
     }

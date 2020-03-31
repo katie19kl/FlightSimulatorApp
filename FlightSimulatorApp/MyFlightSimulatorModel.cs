@@ -20,7 +20,6 @@ namespace FlightSimulatorApp
         private DispatcherTimer timer;
 
 
-
         private double rudder;
         private double elevator;
         private double aileron;
@@ -39,7 +38,7 @@ namespace FlightSimulatorApp
             this.telnetClient = MyTelnetClient;
             stop = false;
             this.timer = new DispatcherTimer();
-            this.timer.Interval = TimeSpan.FromSeconds(3); //showing msg on screen for 5 seconds
+            this.timer.Interval = TimeSpan.FromSeconds(3); //showing msg on screen for 3 seconds
             this.timer.Tick += delegate { this.WarningString = String.Empty; }; //removing msg
         }
 
@@ -208,7 +207,7 @@ namespace FlightSimulatorApp
             set
             {
                 this.latitude = value;
-                NotifyPropertyChanged("Latitude");
+                NotifyPropertyChanged("LocationPushPin");
             }
         }
 
@@ -224,7 +223,7 @@ namespace FlightSimulatorApp
             set
             {
                 this.longitude = value;
-                NotifyPropertyChanged("Longitude");
+                NotifyPropertyChanged("LocationPushPin");
             }
         }
 
@@ -415,7 +414,15 @@ namespace FlightSimulatorApp
                     answer = this.telnetClient.read().Split('\n')[0];
                     if (answer != "ERR")
                     {
-                        this.Latitude = Double.Parse(answer);
+                        double lat = Double.Parse(answer);
+                        if((-90 <= lat) && (lat <= 90))
+                        {
+                            this.Latitude = Double.Parse(answer);
+                        } else
+                        {
+                            /*----------------------------------out of the world-------------------------------------*/
+                            //is it even possible to get values out of the range? -- question for mister dimka
+                        }
                     } else
                     {
                         showIndicationOnScreen("Error when receiving Latitude value");
@@ -425,7 +432,15 @@ namespace FlightSimulatorApp
                     answer = this.telnetClient.read().Split('\n')[0];
                     if (answer != "ERR")
                     {
-                        this.Longitude = Double.Parse(answer);
+                        double longi = Double.Parse(answer);
+                        if ((-180 <= longi) && (longi <= 180))
+                        {
+                            this.Longitude = Double.Parse(answer);
+                        }
+                        else
+                        {
+                            /*----------------------------------out of the world-------------------------------------*/
+                        }                        
                     } else
                     {
                         showIndicationOnScreen("Error when receiving Longitude value");
@@ -446,7 +461,7 @@ namespace FlightSimulatorApp
             timer.Start();
         }
 
-        public void sendSetRequest(string setRequest)
+        public void sendSetRequest(string setRequest, string varName)
         {
             mut1.WaitOne();
             this.telnetClient.write(setRequest);
@@ -458,7 +473,7 @@ namespace FlightSimulatorApp
             string subStr = answer.Substring(0, index);
             if(subStr == "ERR")
             {
-                //do something!! - msg to the screen
+                showIndicationOnScreen("Error when receiving " + varName + " value");
             }
         }
 
