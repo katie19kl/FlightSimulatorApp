@@ -53,18 +53,18 @@ namespace FlightSimulatorApp
             UserInput popUpInput = new UserInput();
             popUpInput.ShowDialog();
 
+            //myFlightSimulatorModel.showIndicationOnScreen("");
+
             string port = ConfigurationManager.AppSettings.Get("Port");
             string ip = ConfigurationManager.AppSettings.Get("IP");
 
-            /*Warnings.Content = "Whatever";
-            var timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(5);
-            timer.Tick += delegate { Warnings.Content = String.Empty; };
-            timer.Start();*/
 
-
-            myFlightSimulatorModel.connect(ip, port);
-            myFlightSimulatorModel.start();
+            if(!myFlightSimulatorModel.connect(ip, port)) {
+                myFlightSimulatorModel.showIndicationOnScreen("Cannot connect to server");
+            } else
+            {
+                myFlightSimulatorModel.start();
+            }
 
         }
 

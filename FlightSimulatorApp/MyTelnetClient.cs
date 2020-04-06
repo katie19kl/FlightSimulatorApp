@@ -27,10 +27,9 @@ namespace FlightSimulatorApp
                 this.networkStream.ReadTimeout = 5000; //5 seconds
                 return isConnected;
 
-            } catch (SocketException e)
+            } catch (SocketException)
             {
                 isConnected = false;
-                Console.WriteLine(e.Source);
                 return isConnected;
 
             }
@@ -63,16 +62,29 @@ namespace FlightSimulatorApp
 
                 return result;
 
-            } catch (IOException) //in case of a timeout
+            } catch (IOException)
             {
-                return "ERR\n";
-            }                    
+                if(this.tcpClient.Connected) //timeout
+                {
+                    return "ERR\n"; //the server didn't crash, there was a time out
+                } else //server crashed!
+                {
+                    return "server crashed\n";/////////////////////////////////////////////handle!
+                }
+            }                   
         }
 
         public void write(string command)
         {
-            Byte[] data = System.Text.Encoding.ASCII.GetBytes(command);
-            networkStream.Write(data, 0, data.Length);                       
+            try
+            {
+                Byte[] data = System.Text.Encoding.ASCII.GetBytes(command);
+                networkStream.Write(data, 0, data.Length);
+
+            } catch (IOException) //server crashed
+            {
+                disconnect();
+            }                    
         }
     }
 }

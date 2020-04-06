@@ -10,7 +10,6 @@ namespace FlightSimulatorApp
     public class VM_Warnings : INotifyPropertyChanged
     {
         private IFlightSimulatorModel model;
-        private string vm_warningString;
 
         public string VM_WarningString
         {

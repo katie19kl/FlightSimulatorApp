@@ -38,7 +38,7 @@ namespace FlightSimulatorApp
             this.telnetClient = MyTelnetClient;
             stop = false;
             this.timer = new DispatcherTimer();
-            this.timer.Interval = TimeSpan.FromSeconds(3); //showing msg on screen for 3 seconds
+            this.timer.Interval = TimeSpan.FromSeconds(5); //showing msg on screen for 3 seconds
             this.timer.Tick += delegate { this.WarningString = String.Empty; }; //removing msg
         }
 
@@ -420,8 +420,7 @@ namespace FlightSimulatorApp
                             this.Latitude = Double.Parse(answer);
                         } else
                         {
-                            /*----------------------------------out of the world-------------------------------------*/
-                            //is it even possible to get values out of the range? -- question for mister dimka
+                            showIndicationOnScreen("Invalid Latitude value on map(cannot get out of Earth)");
                         }
                     } else
                     {
@@ -439,8 +438,8 @@ namespace FlightSimulatorApp
                         }
                         else
                         {
-                            /*----------------------------------out of the world-------------------------------------*/
-                        }                        
+                            showIndicationOnScreen("Invalid Longitude value on map(cannot get out of Earth)");
+                        }
                     } else
                     {
                         showIndicationOnScreen("Error when receiving Longitude value");
@@ -476,6 +475,5 @@ namespace FlightSimulatorApp
                 showIndicationOnScreen("Error when receiving " + varName + " value");
             }
         }
-
     }
 }
