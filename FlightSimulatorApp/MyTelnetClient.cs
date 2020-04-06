@@ -66,12 +66,15 @@ namespace FlightSimulatorApp
             {
                 if(this.tcpClient.Connected) //timeout
                 {
-                    return "ERR\n"; //the server didn't crash, there was a time out
+                    return "ERR\n";
                 } else //server crashed!
                 {
-                    return "server crashed\n";/////////////////////////////////////////////handle!
+                    throw new IOException("Cannot read data!");
                 }
-            }                   
+            } catch (ObjectDisposedException)
+            {
+                throw new ObjectDisposedException("Cannot read!!!");
+            }
         }
 
         public void write(string command)
@@ -83,8 +86,11 @@ namespace FlightSimulatorApp
 
             } catch (IOException) //server crashed
             {
-                disconnect();
-            }                    
+                throw new IOException("Cannot write data!");
+            } catch (ObjectDisposedException)
+            {
+                throw new ObjectDisposedException("Cannot write!!!");
+            }                   
         }
     }
 }

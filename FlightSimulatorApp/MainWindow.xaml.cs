@@ -53,8 +53,6 @@ namespace FlightSimulatorApp
             UserInput popUpInput = new UserInput();
             popUpInput.ShowDialog();
 
-            //myFlightSimulatorModel.showIndicationOnScreen("");
-
             string port = ConfigurationManager.AppSettings.Get("Port");
             string ip = ConfigurationManager.AppSettings.Get("IP");
 

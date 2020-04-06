@@ -49,6 +49,7 @@ namespace FlightSimulatorApp
          * to update it on the Map
          */
         private double latitude;
+
         public double vm_Latitude
         {
             get
@@ -63,6 +64,7 @@ namespace FlightSimulatorApp
             }
         }
         private double longitude;
+
         public double vm_Longitude
         {
             get

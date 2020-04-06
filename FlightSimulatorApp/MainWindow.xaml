@@ -76,7 +76,7 @@
         </m:Map>
 
         <StackPanel/>
-        <local:Sensors Grid.ColumnSpan="2" Margin="411,10,26,214" x:Name="Sensors_Var" />
+        <local:Sensors Grid.ColumnSpan="2" Margin="425,0,-14.667,223.667" x:Name="Sensors_Var" />
     </Grid>
 
 </Window>
