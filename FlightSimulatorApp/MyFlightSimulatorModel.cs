@@ -21,6 +21,8 @@ namespace FlightSimulatorApp
         private DispatcherTimer timer;
         private bool isNumber;
         private double stam;
+        private string timeoutMsg = "time out";
+
 
         private double rudder;
         private double elevator;
@@ -40,8 +42,8 @@ namespace FlightSimulatorApp
             this.telnetClient = MyTelnetClient;
             stop = false;
             this.timer = new DispatcherTimer();
-            this.timer.Interval = TimeSpan.FromSeconds(5); //showing msg on screen for 5 seconds
-            this.timer.Tick += delegate { this.WarningString = String.Empty; }; //removing msg
+            this.timer.Interval = TimeSpan.FromSeconds(5); // Showing msg on screen for 5 seconds
+            this.timer.Tick += delegate { this.WarningString = String.Empty; }; // Removing msg
         }
 
         public string WarningString
@@ -344,7 +346,15 @@ namespace FlightSimulatorApp
                         }
                         else
                         {
-                            showIndicationOnScreen("Error when receiving AirSpeed value");
+                            if (answer == timeoutMsg)
+                            {
+                                showIndicationOnScreen("Server is under load of requests");
+
+                            }
+                            else // Got an ERR as an answer
+                            {
+                                showIndicationOnScreen("Error when receiving AirSpeed value");
+                            }
                         }
 
                         this.telnetClient.write(altitude1);
@@ -357,7 +367,14 @@ namespace FlightSimulatorApp
                         }
                         else
                         {
-                            showIndicationOnScreen("Error when receiving Altitude value");
+                            if (answer == timeoutMsg)
+                            {
+                                showIndicationOnScreen("Server is under load of requests");
+                            }
+                            else // Got an ERR as an answer
+                            {
+                                showIndicationOnScreen("Error when receiving Altitude value");
+                            }
                         }
 
                         this.telnetClient.write(roll1);
@@ -370,7 +387,14 @@ namespace FlightSimulatorApp
                         }
                         else
                         {
-                            showIndicationOnScreen("Error when receiving Roll value");
+                            if (answer == timeoutMsg)
+                            {
+                                showIndicationOnScreen("Server is under load of requests");
+                            }
+                            else // Got an ERR as an answer
+                            {
+                                showIndicationOnScreen("Error when receiving Roll value");
+                            }
                         }
 
                         this.telnetClient.write(pitch1);
@@ -383,7 +407,14 @@ namespace FlightSimulatorApp
                         }
                         else
                         {
-                            showIndicationOnScreen("Error when receiving Pitch value");
+                            if (answer == timeoutMsg)
+                            {
+                                showIndicationOnScreen("Server is under load of requests");
+                            }
+                            else // Got an ERR as an answer
+                            {
+                                showIndicationOnScreen("Error when receiving Pitch value");
+                            }
                         }
 
                         this.telnetClient.write(altimeter1);
@@ -396,7 +427,14 @@ namespace FlightSimulatorApp
                         }
                         else
                         {
-                            showIndicationOnScreen("Error when receiving Altimeter value");
+                            if (answer == timeoutMsg)
+                            {
+                                showIndicationOnScreen("Server is under load of requests");
+                            }
+                            else // Got an ERR as an answer
+                            {
+                                showIndicationOnScreen("Error when receiving Altimeter value");
+                            }
                         }
 
                         this.telnetClient.write(heading1);
@@ -409,7 +447,14 @@ namespace FlightSimulatorApp
                         }
                         else
                         {
-                            showIndicationOnScreen("Error when receiving Heading value");
+                            if (answer == timeoutMsg)
+                            {
+                                showIndicationOnScreen("Server is under load of requests");
+                            }
+                            else // Got an ERR as an answer
+                            {
+                                showIndicationOnScreen("Error when receiving Heading value");
+                            }
                         }
 
                         this.telnetClient.write(groundSpeed1);
@@ -422,7 +467,14 @@ namespace FlightSimulatorApp
                         }
                         else
                         {
-                            showIndicationOnScreen("Error when receiving GroundSpeed value");
+                            if (answer == timeoutMsg)
+                            {
+                                showIndicationOnScreen("Server is under load of requests");
+                            }
+                            else // Got an ERR as an answer
+                            {
+                                showIndicationOnScreen("Error when receiving GroundSpeed value");
+                            }
                         }
 
                         this.telnetClient.write(verticalSpeed1);
@@ -435,7 +487,14 @@ namespace FlightSimulatorApp
                         }
                         else
                         {
-                            showIndicationOnScreen("Error when receiving VerticalSpeed value");
+                            if (answer == timeoutMsg)
+                            {
+                                showIndicationOnScreen("Server is under load of requests");
+                            }
+                            else // Got an ERR as an answer
+                            {
+                                showIndicationOnScreen("Error when receiving VerticalSpeed value");
+                            }
                         }
 
                         this.telnetClient.write(latitude1);
@@ -456,13 +515,20 @@ namespace FlightSimulatorApp
                         }
                         else
                         {
-                            showIndicationOnScreen("Error when receiving Latitude value");
+                            if (answer == timeoutMsg)
+                            {
+                                showIndicationOnScreen("Server is under load of requests");
+                            }
+                            else // Got an ERR as an answer
+                            {
+                                showIndicationOnScreen("Error when receiving Latitude value");
+                            }
                         }
 
                         this.telnetClient.write(longitude1);
                         answer = this.telnetClient.read().Split('\n')[0];
                         isNumber = double.TryParse(answer, out stam);
-                        
+
                         if (answer != "ERR" && isNumber)
                         {
                             double longi = Double.Parse(answer);
@@ -477,11 +543,17 @@ namespace FlightSimulatorApp
                         }
                         else
                         {
-                            showIndicationOnScreen("Error when receiving Longitude value");
+                            if (answer == timeoutMsg)
+                            {
+                                showIndicationOnScreen("Server is under load of requests");
+                            }
+                            else // Got an ERR as an answer
+                            {
+                                showIndicationOnScreen("Error when receiving Longitude value");
+                            }
                         }
 
                         mut1.ReleaseMutex();
-
 
                         Thread.Sleep(125);
                     }
@@ -495,7 +567,7 @@ namespace FlightSimulatorApp
                 }
                 catch (ObjectDisposedException e)
                 {
-                    this.timer.Interval = TimeSpan.FromSeconds(1);
+                    this.timer.Interval = TimeSpan.FromSeconds(10);
                     showIndicationOnScreen(e.Message);
                     mut1.ReleaseMutex();
                 }
@@ -526,6 +598,10 @@ namespace FlightSimulatorApp
                 if (subStr == "ERR")
                 {
                     showIndicationOnScreen("Error when receiving " + varName + " value");
+                } 
+                else if (subStr == timeoutMsg)
+                {
+                    showIndicationOnScreen("Server is under load of requests");
                 }
 
             } catch (IOException)
@@ -534,7 +610,6 @@ namespace FlightSimulatorApp
                 disconnect();
                 this.timer.Interval = TimeSpan.FromSeconds(10);
                 showIndicationOnScreen("Server has crashed!");
-                
             }
             catch (ObjectDisposedException)
             {

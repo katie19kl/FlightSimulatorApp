@@ -14,6 +14,7 @@ namespace FlightSimulatorApp
         private NetworkStream networkStream;
         private bool isConnected;
         private TcpClient tcpClient;
+        private string timeoutMsg = "time out\n";
 
         public bool connect(string ip, int port)
         {
@@ -24,7 +25,7 @@ namespace FlightSimulatorApp
                 tcpClient.Connect(ip, port);
 
                 this.networkStream = tcpClient.GetStream();
-                this.networkStream.ReadTimeout = 5000; //5 seconds
+                this.networkStream.ReadTimeout = 5000; // 5 seconds
                 return isConnected;
 
             } catch (SocketException)
@@ -64,16 +65,19 @@ namespace FlightSimulatorApp
 
             } catch (IOException)
             {
-                if(this.tcpClient.Connected) //timeout
+                if(this.tcpClient.Connected) // Timeout
                 {
-                    return "ERR\n";
-                } else //server crashed!
+                    return timeoutMsg; // "time out\n"
+
+                }
+                else // Server crashed!
                 {
                     throw new IOException("Cannot read data!");
                 }
+
             } catch (ObjectDisposedException)
             {
-                throw new ObjectDisposedException("Cannot read!!!");
+                throw new ObjectDisposedException("Cannot read data!");
             }
         }
 
@@ -84,12 +88,12 @@ namespace FlightSimulatorApp
                 Byte[] data = System.Text.Encoding.ASCII.GetBytes(command);
                 networkStream.Write(data, 0, data.Length);
 
-            } catch (IOException) //server crashed
+            } catch (IOException) // Server crashed
             {
                 throw new IOException("Cannot write data!");
             } catch (ObjectDisposedException)
             {
-                throw new ObjectDisposedException("Cannot write!!!");
+                throw new ObjectDisposedException("Cannot write data!");
             }                   
         }
     }

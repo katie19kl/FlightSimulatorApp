@@ -7,7 +7,7 @@
         xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1200">
+        Title="MainWindow" Height="700" Width="1312">
 
     <Grid MouseLeftButtonUp="ButtonMouse_Up">
         <Grid.Background>
@@ -17,12 +17,12 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="475*"/>
-            <ColumnDefinition Width="122*"/>
+            <ColumnDefinition Width="211*"/>
+            <ColumnDefinition Width="50*"/>
 
         </Grid.ColumnDefinitions>
 
-        <StackPanel HorizontalAlignment="Left" Height="319" Margin="663,352,0,-0.333"
+        <StackPanel HorizontalAlignment="Left" Height="319" Margin="744,352,0,-0.333"
                     VerticalAlignment="Top" Width="530" Grid.ColumnSpan="2" x:Name="Control_Navigator">
             <local:Joystick HorizontalAlignment="Left" Height="100"
                             VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.5,0.5" Margin="130,0,0,0"
@@ -66,7 +66,7 @@
 
 
         <m:Map CredentialsProvider="AttsGkqIHCOIEA11KtQZDphl5bi8lppin64jeg-ZOOhiS4cdHA_EXJwHSbyZi4Xo"
-                x:Name="my_map" Mode="Road" Center="32.0055, 34.8854" Margin="0,0,238,0" ScaleVisibility="Hidden"
+                x:Name="my_map" Mode="Road" Center="32.0055, 34.8854" Margin="0,0,344.333,-0.333" ScaleVisibility="Hidden"
                ZoomLevel="1.125">
 
             <m:Pushpin  x:Name ="myPushPin"  Location ="{Binding  vmMap.vm_LocationPushPin, Mode=OneWay}" />
@@ -75,8 +75,8 @@
 
         </m:Map>
 
-        <StackPanel/>
-        <local:Sensors Grid.ColumnSpan="2" Margin="425,0,-14.667,223.667" x:Name="Sensors_Var" />
+        <StackPanel Margin="0,0,0.333,-0.333"/>
+        <local:Sensors Grid.ColumnSpan="2" Margin="469,-11,53.333,234.667" x:Name="Sensors_Var" />
     </Grid>
 
 </Window>
