@@ -25,6 +25,8 @@ namespace FlightSimulatorApp
         private string port;
         private bool ip_valid = false;
         private bool port_valid = false;
+        private const double minPort = 0;
+        private const double maxPort = 65535;
 
 
         public string IP
@@ -68,6 +70,13 @@ namespace FlightSimulatorApp
 
 
                 Close();
+            }
+            else
+            {
+                if (!ip_valid)
+                {
+                    this.errorLabelIP.Content = "IP is invalid";
+                }
             }
         }
 
@@ -129,12 +138,21 @@ namespace FlightSimulatorApp
 
             else
             {
-                if((string)this.errorLabelPort.Content != "")
+                if ((minPort <= numericPort) && (numericPort <= maxPort))
                 {
-                    this.errorLabelPort.Content = "";
+                    if ((string)this.errorLabelPort.Content != "")
+                    {
+                        this.errorLabelPort.Content = "";
+                    }
+                    this.Port = Port_txtBox.Text;
+                    this.port_valid = true;
                 }
-                this.Port = Port_txtBox.Text;
-                port_valid = true;
+                else
+                {
+                    this.port_valid = false;
+                    this.errorLabelPort.Content = "Port not in range!";
+                }
+                
             }
         }
     }
