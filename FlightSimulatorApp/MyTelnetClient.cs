@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using System.Threading;
 
 namespace FlightSimulatorApp
 {
     public class MyTelnetClient : ITelnetClient
     {
-
         private NetworkStream networkStream;
         private bool isConnected;
         private TcpClient tcpClient;
-        private string timeoutMsg = "time out\n";
 
         public bool connect(string ip, int port)
         {
@@ -28,9 +28,11 @@ namespace FlightSimulatorApp
                 this.networkStream.ReadTimeout = 5000; // 5 seconds
                 return isConnected;
 
-            } catch (SocketException)
+            }
+            catch (SocketException e)
             {
                 isConnected = false;
+                Console.WriteLine(e.Source);
                 return isConnected;
 
             }
@@ -38,17 +40,22 @@ namespace FlightSimulatorApp
 
         public void disconnect()
         {
-            if(this.networkStream != null)
+            if (this.networkStream != null)
             {
                 this.networkStream.Close();
 
             }
-            
-            if(this.tcpClient != null)
+
+            if (this.tcpClient != null)
             {
                 this.tcpClient.Close();
 
             }
+        }
+
+        public void makeFlush()
+        {
+            networkStream.Flush();
         }
 
         public string read()
@@ -63,21 +70,22 @@ namespace FlightSimulatorApp
 
                 return result;
 
-            } catch (IOException)
+            }
+            catch (IOException)
             {
-                if(this.tcpClient.Connected) // Timeout
+                if (this.tcpClient.Connected) // Timeout
                 {
-                    return timeoutMsg; // "time out\n"
-
+                    return "time out\n"; // The server didn't crash, there was a timeout
                 }
                 else // Server crashed!
                 {
-                    throw new IOException("Cannot read data!");
+                    throw new IOException("didn't succeed to read");
                 }
-
-            } catch (ObjectDisposedException)
+            }
+            catch (ObjectDisposedException)
             {
-                throw new ObjectDisposedException("Cannot read data!");
+
+                throw new ObjectDisposedException("Cannot read data, as you are not connected to a server!");
             }
         }
 
@@ -88,13 +96,20 @@ namespace FlightSimulatorApp
                 Byte[] data = System.Text.Encoding.ASCII.GetBytes(command);
                 networkStream.Write(data, 0, data.Length);
 
-            } catch (IOException) // Server crashed
+            }
+            catch (IOException) //in case of a timeout
             {
-                throw new IOException("Cannot write data!");
-            } catch (ObjectDisposedException)
+                throw new IOException("didn't succeed to write");
+
+            }
+            catch (ObjectDisposedException)
             {
-                throw new ObjectDisposedException("Cannot write data!");
-            }                   
+                throw new ObjectDisposedException("Cannot write data, as you are not connected to a server!");
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException("Cannot write since not connected to a server!");
+            }
         }
     }
 }

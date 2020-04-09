@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,6 +14,6 @@ namespace FlightSimulatorApp
     /// </summary>
     public partial class App : Application
     {
-
+        public static IFlightSimulatorModel myFlightSimulatorModel = MyFlightSimulatorModel.model;
     }
 }

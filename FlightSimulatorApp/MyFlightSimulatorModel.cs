@@ -6,14 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Threading;
-using System.Windows.Controls;
 using System.Windows.Threading;
 using System.IO;
+using System.Windows;
 
 namespace FlightSimulatorApp
 {
     public class MyFlightSimulatorModel : IFlightSimulatorModel
     {
+        private string timeoutMsg = "time out";
+
         private ITelnetClient telnetClient;
         private static Mutex mut1 = new Mutex();
         volatile bool stop;
@@ -21,9 +23,6 @@ namespace FlightSimulatorApp
         private DispatcherTimer timer;
         private bool isNumber;
         private double stam;
-        private string timeoutMsg = "time out";
-
-
         private double rudder;
         private double elevator;
         private double aileron;
@@ -37,13 +36,24 @@ namespace FlightSimulatorApp
         private double groundSpeed;
         private double verticalSpeed;
 
-        public MyFlightSimulatorModel(ITelnetClient MyTelnetClient)
+        private MyFlightSimulatorModel(ITelnetClient MyTelnetClient)
         {
             this.telnetClient = MyTelnetClient;
             stop = false;
             this.timer = new DispatcherTimer();
-            this.timer.Interval = TimeSpan.FromSeconds(5); // Showing msg on screen for 5 seconds
-            this.timer.Tick += delegate { this.WarningString = String.Empty; }; // Removing msg
+            this.timer.Interval = TimeSpan.FromSeconds(3); //showing msg on screen for 3 seconds
+            this.timer.Tick += delegate { this.WarningString = String.Empty; }; //removing msg
+        }
+
+
+        private static readonly IFlightSimulatorModel Instance = new MyFlightSimulatorModel(new MyTelnetClient());
+
+        public static IFlightSimulatorModel model
+        {
+            get
+            {
+                return Instance;
+            }
         }
 
         public string WarningString
@@ -283,11 +293,15 @@ namespace FlightSimulatorApp
 
         public void start()
         {
-            new Thread(delegate () {
+            new Thread(delegate ()
+            {
                 Random rnd = new Random();
-                try
+                Thread th = Thread.CurrentThread;
+
+                int i = th.ManagedThreadId;
+                while (!stop)
                 {
-                    while (!stop)
+                    try
                     {
                         int num = rnd.Next(1000);
                         double foo = num % 10;
@@ -348,6 +362,7 @@ namespace FlightSimulatorApp
                         {
                             if (answer == timeoutMsg)
                             {
+                                this.timer.Interval = TimeSpan.FromSeconds(4);
                                 showIndicationOnScreen("Server is under load of requests");
 
                             }
@@ -369,6 +384,7 @@ namespace FlightSimulatorApp
                         {
                             if (answer == timeoutMsg)
                             {
+                                this.timer.Interval = TimeSpan.FromSeconds(4);
                                 showIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
@@ -389,6 +405,7 @@ namespace FlightSimulatorApp
                         {
                             if (answer == timeoutMsg)
                             {
+                                this.timer.Interval = TimeSpan.FromSeconds(4);
                                 showIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
@@ -409,6 +426,7 @@ namespace FlightSimulatorApp
                         {
                             if (answer == timeoutMsg)
                             {
+                                this.timer.Interval = TimeSpan.FromSeconds(4);
                                 showIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
@@ -429,6 +447,7 @@ namespace FlightSimulatorApp
                         {
                             if (answer == timeoutMsg)
                             {
+                                this.timer.Interval = TimeSpan.FromSeconds(4);
                                 showIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
@@ -449,6 +468,7 @@ namespace FlightSimulatorApp
                         {
                             if (answer == timeoutMsg)
                             {
+                                this.timer.Interval = TimeSpan.FromSeconds(4);
                                 showIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
@@ -469,6 +489,7 @@ namespace FlightSimulatorApp
                         {
                             if (answer == timeoutMsg)
                             {
+                                this.timer.Interval = TimeSpan.FromSeconds(4);
                                 showIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
@@ -489,6 +510,7 @@ namespace FlightSimulatorApp
                         {
                             if (answer == timeoutMsg)
                             {
+                                this.timer.Interval = TimeSpan.FromSeconds(4);
                                 showIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
@@ -517,6 +539,7 @@ namespace FlightSimulatorApp
                         {
                             if (answer == timeoutMsg)
                             {
+                                this.timer.Interval = TimeSpan.FromSeconds(4);
                                 showIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
@@ -526,6 +549,7 @@ namespace FlightSimulatorApp
                         }
 
                         this.telnetClient.write(longitude1);
+
                         answer = this.telnetClient.read().Split('\n')[0];
                         isNumber = double.TryParse(answer, out stam);
 
@@ -545,6 +569,7 @@ namespace FlightSimulatorApp
                         {
                             if (answer == timeoutMsg)
                             {
+                                this.timer.Interval = TimeSpan.FromSeconds(4);
                                 showIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
@@ -556,20 +581,28 @@ namespace FlightSimulatorApp
                         mut1.ReleaseMutex();
 
                         Thread.Sleep(125);
+
+
                     }
-                }
-                catch (IOException e)
-                {
-                    this.timer.Interval = TimeSpan.FromSeconds(10);
-                    showIndicationOnScreen(e.Message);
-                    mut1.ReleaseMutex();
-                    disconnect();
-                }
-                catch (ObjectDisposedException e)
-                {
-                    this.timer.Interval = TimeSpan.FromSeconds(10);
-                    showIndicationOnScreen(e.Message);
-                    mut1.ReleaseMutex();
+                    catch (IOException e)
+                    {
+                        this.timer.Interval = TimeSpan.FromSeconds(10);
+                        showIndicationOnScreen(e.Message);
+                        mut1.ReleaseMutex();
+
+                        disconnect();
+
+                    }
+                    catch (ObjectDisposedException e)
+                    {
+                        this.timer.Interval = TimeSpan.FromSeconds(1);
+                        showIndicationOnScreen(e.Message);
+                        mut1.ReleaseMutex();
+                    }
+                    catch (NullReferenceException e)
+                    {
+                        showIndicationOnScreen(e.Message);
+                    }
                 }
 
             }).Start();
@@ -586,40 +619,44 @@ namespace FlightSimulatorApp
         {
             try
             {
-                mut1.WaitOne();
-
-                this.telnetClient.write(setRequest);
-                string answer = this.telnetClient.read();
-
-                //mut1.ReleaseMutex();
-
-                int index = answer.IndexOf("\n");
-                string subStr = answer.Substring(0, index);
-                if (subStr == "ERR")
+                if (mut1.WaitOne(2))
                 {
-                    showIndicationOnScreen("Error when receiving " + varName + " value");
-                } 
-                else if (subStr == timeoutMsg)
-                {
-                    showIndicationOnScreen("Server is under load of requests");
+                    this.telnetClient.write(setRequest);
+                    string answer = this.telnetClient.read();
+                    mut1.ReleaseMutex();
+                    int index = answer.IndexOf("\n");
+                    string subStr = answer.Substring(0, index);
+                    if (subStr == "ERR")
+                    {
+                        showIndicationOnScreen("Error when setting " + varName + " value");
+                    }
                 }
-
-            } catch (IOException)
+                else
+                {
+                    this.timer.Interval = TimeSpan.FromSeconds(1);
+                    showIndicationOnScreen("Not writting");
+                }
+            }
+            catch (IOException e)
             {
-                
+                this.timer.Interval = TimeSpan.FromSeconds(10);
+                showIndicationOnScreen(e.Message);
                 disconnect();
-                this.timer.Interval = TimeSpan.FromSeconds(10);
-                showIndicationOnScreen("Server has crashed!");
-            }
-            catch (ObjectDisposedException)
-            {
-                this.timer.Interval = TimeSpan.FromSeconds(10);
-                showIndicationOnScreen("There is no connection with the server!!!");
-            }
-            finally
-            {
                 mut1.ReleaseMutex();
             }
+            catch (ObjectDisposedException e)
+            {
+                this.timer.Interval = TimeSpan.FromSeconds(1);
+                showIndicationOnScreen(e.Message);
+                mut1.ReleaseMutex();
+
+            }
+            catch (NullReferenceException e)
+            {
+                showIndicationOnScreen(e.Message);
+            }
+
         }
+
     }
 }

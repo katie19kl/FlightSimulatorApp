@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +14,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Maps.MapControl.WPF;
-using System.Configuration;
-using System.Windows.Threading;
 
 namespace FlightSimulatorApp
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -26,18 +31,20 @@ namespace FlightSimulatorApp
 
         public MainWindow()
         {
+            VM_Sensor vmSensor = new VM_Sensor(App.myFlightSimulatorModel);
+            VM_Map vmMap = new VM_Map(App.myFlightSimulatorModel);
+            VM_Navigator_Controller vmController = new VM_Navigator_Controller(App.myFlightSimulatorModel);
+            VM_Warnings vmWarnings = new VM_Warnings(App.myFlightSimulatorModel);
+
+            ///// From here to down when server crashes
+            UserInput popUpInput = new UserInput();
+            popUpInput.ShowDialog();
+
+            string port = ConfigurationManager.AppSettings.Get("Port");
+            string ip = ConfigurationManager.AppSettings.Get("IP");
+
+
             InitializeComponent();
-            IFlightSimulatorModel myFlightSimulatorModel = new MyFlightSimulatorModel(new MyTelnetClient());
-
-
-            VM_Sensor vmSensor = new VM_Sensor(myFlightSimulatorModel);
-
-            VM_Map vmMap = new VM_Map(myFlightSimulatorModel);            
-
-            VM_Navigator_Controller vmController = new VM_Navigator_Controller(myFlightSimulatorModel);
-
-            VM_Warnings vmWarnings = new VM_Warnings(myFlightSimulatorModel);
-
             Joystick_Var.SetVM(vmController);
             Sensors_Var.SetVM(vmSensor);
             MyWarningsIndicator.SetVM(vmWarnings);
@@ -50,27 +57,25 @@ namespace FlightSimulatorApp
                 vmWarnings
             };
 
-            UserInput popUpInput = new UserInput();
-            popUpInput.ShowDialog();
-
-            string port = ConfigurationManager.AppSettings.Get("Port");
-            string ip = ConfigurationManager.AppSettings.Get("IP");
-
-
-            if(!myFlightSimulatorModel.connect(ip, port)) {
-                myFlightSimulatorModel.showIndicationOnScreen("Cannot connect to server");
-            } else
+            if(!App.myFlightSimulatorModel.connect(ip, port))
             {
-                myFlightSimulatorModel.start();
+                App.myFlightSimulatorModel.showIndicationOnScreen("Cannot connect to server!");
+            } 
+            else
+            {
+                App.myFlightSimulatorModel.start();
             }
 
         }
+
+
 
         private void Joystick_Loaded(object sender, RoutedEventArgs e) { }
 
         //For sake of joystick
         private void ButtonMouse_Up(object sender, MouseButtonEventArgs e)
         {
+            //this.Joystick_Var.SetPiptickToCenter_NO_UPDATE();
             this.Joystick_Var.SetPiptickToCenter();
             Joystick_Var.mouseIsPressed = false;
         }
