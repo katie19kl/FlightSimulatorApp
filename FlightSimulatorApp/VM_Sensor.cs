@@ -10,16 +10,11 @@ namespace FlightSimulatorApp
 {
     public class VM_Sensor : INotifyPropertyChanged
     {
-        private double vm_airSpeed; //8 values from here!
-        private double vm_altitude;
-        private double vm_roll;
-        private double vm_pitch;
-        private double vm_altimeter;
-        private double vm_heading;
-        private double vm_groundSpeed;
-        private double vm_verticalSpeed;
+        IFlightSimulatorModel model;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public double vm_AirSpeed
+        /* Getter of airSpeed value. */
+        public double VM_AirSpeed
         {
             get
             {
@@ -27,7 +22,8 @@ namespace FlightSimulatorApp
             }
         }
 
-        public double vm_Altitude
+        /* Getter of altitude value. */
+        public double VM_Altitude
         {
             get
             {
@@ -35,7 +31,8 @@ namespace FlightSimulatorApp
             }
         }
 
-        public double vm_Roll
+        /* Getter of roll value. */
+        public double VM_Roll
         {
             get
             {
@@ -43,7 +40,8 @@ namespace FlightSimulatorApp
             }
         }
 
-        public double vm_Pitch
+        /* Getter of pitch value. */
+        public double VM_Pitch
         {
             get
             {
@@ -51,8 +49,8 @@ namespace FlightSimulatorApp
             }
         }
 
-
-        public double vm_Altimeter
+        /* Getter of altimeter value. */
+        public double VM_Altimeter
         {
             get
             {
@@ -60,7 +58,8 @@ namespace FlightSimulatorApp
             }
         }
 
-        public double vm_Heading
+        /* Getter of heading value. */
+        public double VM_Heading
         {
             get
             {
@@ -68,7 +67,8 @@ namespace FlightSimulatorApp
             }
         }
 
-        public double vm_GroundSpeed
+        /* Getter of groundSpeed value. */
+        public double VM_GroundSpeed
         {
             get
             {
@@ -76,7 +76,8 @@ namespace FlightSimulatorApp
             }
         }
 
-        public double vm_VerticalSpeed
+        /* Getter of verticalSpeed value. */
+        public double VM_VerticalSpeed
         {
             get
             {
@@ -84,7 +85,8 @@ namespace FlightSimulatorApp
             }
 
         }
-        IFlightSimulatorModel model;
+
+        /* Constructor receives a model. */
         public VM_Sensor(IFlightSimulatorModel model_l)
         {
             model = model_l;
@@ -93,8 +95,8 @@ namespace FlightSimulatorApp
                 NotifyPropertyChanged("VM_" + e.PropertyName);
             };
         }
-        public event PropertyChangedEventHandler PropertyChanged;
 
+        /* Notifies the observers of a change that occures. */
         public void NotifyPropertyChanged(string propName)
         {
 

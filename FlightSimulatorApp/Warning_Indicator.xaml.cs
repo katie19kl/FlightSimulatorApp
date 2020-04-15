@@ -22,12 +22,13 @@ namespace FlightSimulatorApp
     {
         public VM_Warnings vmWarnings;
 
-
+        /* Constructor. */
         public Warning_Indicator()
         {
             InitializeComponent();
         }
 
+        /* Setter for the appropriate vm. */
         public void SetVM(VM_Warnings vm)
         {
             this.vmWarnings = vm;

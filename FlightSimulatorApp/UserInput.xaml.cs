@@ -25,10 +25,10 @@ namespace FlightSimulatorApp
         private string port;
         private bool ip_valid = false;
         private bool port_valid = false;
-        private const double minPort = 0;
-        private const double maxPort = 65535;
+        private const double minPort = 0; // Defines the range.
+        private const double maxPort = 65535; // Defines the range.
 
-
+        /* Propery of the ip variable. */
         public string IP
         {
             get
@@ -42,6 +42,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Property of the port variable. */
         public string Port
         {
             get
@@ -56,11 +57,15 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Constructor. */
         public UserInput()
         {
             InitializeComponent();
         }
 
+        /* When the OK Button was pressed, checks if the ip and port are valid.
+         * If so, updates in the App.Config the key-value for the IP and Port.
+         */
         private void OK_button_Click(object sender, RoutedEventArgs e)
         {
             if (ip_valid && port_valid)
@@ -68,33 +73,36 @@ namespace FlightSimulatorApp
                 ConfigurationManager.AppSettings.Set("IP", this.ip);
                 ConfigurationManager.AppSettings.Set("Port", this.port);
 
-
                 Close();
             }
             else
             {
                 if (!ip_valid)
                 {
-                    this.errorLabelIP.Content = "IP is invalid";
+                    this.errorLabelIP.Content = "IP is invalid"; // Show indication on the UI.
                 }
             }
         }
 
+        /* When was pressed, the program will use the IP and Port that were defined
+         * as default.
+         */
         private void Default_buttonClick(object sender, RoutedEventArgs e)
         {
-            Close();
+            Close(); // Not using input given in this window.
         }
 
+        /* Shows indication of an error in the format of the IP inserted. */
         private void IP_txtBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.IP = this.IP_txtBox.Text;
             bool isNumeric = false;
             int numericIP = 0;
         
-            //check if valid
+            // Check if valid.
             string[] nums = this.IP.Split('.');
 
-            if(nums.Length != 4) //invalid
+            if(nums.Length != 4) // Invalid.
             {
                 ip_valid = false;
                 if((string)this.errorLabelIP.Content == "")
@@ -117,7 +125,7 @@ namespace FlightSimulatorApp
                     }
                 }
                 
-                if(isNumeric) //ip is valid
+                if(isNumeric) // Ip is valid.
                 {
                     this.ip_valid = true;
                     this.errorLabelIP.Content = "";
@@ -125,6 +133,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Shows indication of an error in the inserted Port. */
         private void Port_txtBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             int numericPort = 0;
@@ -138,7 +147,7 @@ namespace FlightSimulatorApp
 
             else
             {
-                if ((minPort <= numericPort) && (numericPort <= maxPort))
+                if ((minPort <= numericPort) && (numericPort <= maxPort)) // Check if Port is in range.
                 {
                     if ((string)this.errorLabelPort.Content != "")
                     {

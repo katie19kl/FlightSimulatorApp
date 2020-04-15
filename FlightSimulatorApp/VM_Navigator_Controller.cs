@@ -11,16 +11,21 @@ namespace FlightSimulatorApp
     public class VM_Navigator_Controller : INotifyPropertyChanged
     {
         private IFlightSimulatorModel model;
+        public event PropertyChangedEventHandler PropertyChanged;
+        private double vm_rudder = 0;
+        private double vm_elevator = 0;
+        private double vm_aileron;
+        private double vm_throttle;
 
+
+        /* Constructor receives a model. */
         public VM_Navigator_Controller(IFlightSimulatorModel simulatorModel)
         {
             this.model = simulatorModel;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private double vm_rudder = 0;
-        public double vm_Rudder
+        /* Property of vm_rudder variable. */
+        public double VM_Rudder
         {
             get { return vm_rudder; }
             set
@@ -28,13 +33,13 @@ namespace FlightSimulatorApp
                 vm_rudder = value;
                 this.model.Rudder = value;
                 string msg = "set /controls/flight/rudder " + value.ToString() + "\n";
-                model.sendSetRequest(msg, "Rudder");
-                this.NotifyPropertyChanged("vm_Rudder");
+                model.SendSetRequest(msg, "Rudder");
+                this.NotifyPropertyChanged("VM_Rudder");
             }
         }
 
-        private double vm_elevator = 0;
-        public double vm_Elevator
+        /* Property of vm_elevator variable. */
+        public double VM_Elevator
         {
             get { return vm_elevator; }
             set
@@ -42,13 +47,13 @@ namespace FlightSimulatorApp
                 vm_elevator = value;
                 this.model.Elevator = value;
                 string msg = "set /controls/flight/elevator " + value.ToString() + "\n";
-                model.sendSetRequest(msg, "Elevator");
-                this.NotifyPropertyChanged("vm_Elevator");
+                model.SendSetRequest(msg, "Elevator");
+                this.NotifyPropertyChanged("VM_Elevator");
             }
         }
 
-        private double vm_aileron;
-        public double vm_Airelon
+        /* Property of vm_aileron variable. */
+        public double VM_Airelon
         {
             get { return vm_aileron; }
             set
@@ -56,13 +61,13 @@ namespace FlightSimulatorApp
                 vm_aileron = value;
                 this.model.Aileron = value;
                 string msg = "set /controls/flight/aileron " + value.ToString() + "\n";
-                model.sendSetRequest(msg, "Aileron");
-                this.NotifyPropertyChanged("vm_Airelon");
+                model.SendSetRequest(msg, "Aileron");
+                this.NotifyPropertyChanged("VM_Airelon");
             }
         }
 
-        private double vm_throttle;
-        public double vm_Throttle
+        /* Property of vm_throttle variable. */
+        public double VM_Throttle
         {
             get { return vm_throttle; }
             set
@@ -70,15 +75,14 @@ namespace FlightSimulatorApp
                 vm_throttle = value;
                 this.model.Throttle = value;
                 string msg = "set /controls/engines/current-engine/throttle " + value.ToString() + "\n";
-                model.sendSetRequest(msg, "Throttle");
-                this.NotifyPropertyChanged("vm_Throttle");
+                model.SendSetRequest(msg, "Throttle");
+                this.NotifyPropertyChanged("VM_Throttle");
             }
         }
 
-
+        /* Notifies the observers of a change that occures. */
         public void NotifyPropertyChanged(string propName)
         {
-
             if (this.PropertyChanged != null)
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));

@@ -6,16 +6,27 @@ using System.Threading.Tasks;
 
 namespace FlightSimulatorApp
 {
+
     public interface ITelnetClient
     {
-        bool connect(string ip, int port);
 
-        void write(string command);
+        /* Connect to the server given IP and Port. */
+        bool Connect(string ip, int port);
 
-        string read();
+        /* Writes commands to the server,
+         * given a string of the command.
+         */
+        void Write(string command);
 
-        void disconnect();
+        /* Reads the data from the buffer,
+         * after it was sent by the server.
+         */
+        string Read();
 
-        void makeFlush();
+        /* Disconnect from the server. */
+        void Disconnect();
+
+        /* Flushes the buffer of the tcp client. */
+        void MakeFlush();
     }
 }

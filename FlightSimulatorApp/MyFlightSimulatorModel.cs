@@ -14,20 +14,22 @@ namespace FlightSimulatorApp
 {
     public class MyFlightSimulatorModel : IFlightSimulatorModel
     {
-        private string timeoutMsg = "time out";
 
         private ITelnetClient telnetClient;
         private static Mutex mut1 = new Mutex();
         volatile bool stop;
         private string warningString;
         private DispatcherTimer timer;
+        private string timeoutMsg = "time out";
         private bool isNumber;
-        private double stam;
+        private double dummy;
         private double rudder;
         private double elevator;
         private double aileron;
         private double throttle;
-        private double airSpeed; //8 values from here!
+        private double latitude;
+        private double longitude;
+        private double airSpeed; // 8 values from here!
         private double altitude;
         private double roll;
         private double pitch;
@@ -36,18 +38,22 @@ namespace FlightSimulatorApp
         private double groundSpeed;
         private double verticalSpeed;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /* Private constructor. */
         private MyFlightSimulatorModel(ITelnetClient MyTelnetClient)
         {
             this.telnetClient = MyTelnetClient;
             stop = false;
             this.timer = new DispatcherTimer();
-            this.timer.Interval = TimeSpan.FromSeconds(3); //showing msg on screen for 3 seconds
-            this.timer.Tick += delegate { this.WarningString = String.Empty; }; //removing msg
+            this.timer.Interval = TimeSpan.FromSeconds(3); // Showing msg on screen for 3 seconds
+            this.timer.Tick += delegate { this.WarningString = String.Empty; }; // Removing msg
         }
 
-
+        // Creating Singelton model.
         private static readonly IFlightSimulatorModel Instance = new MyFlightSimulatorModel(new MyTelnetClient());
 
+        /* Getter for the model instance. */
         public static IFlightSimulatorModel model
         {
             get
@@ -56,6 +62,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Property of warningString variable. */
         public string WarningString
         {
             get
@@ -70,6 +77,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Property of rudder variable. */
         public double Rudder
         {
             get
@@ -83,6 +91,8 @@ namespace FlightSimulatorApp
                 NotifyPropertyChanged("Rudder");
             }
         }
+
+        /* Property of elevator variable. */
         public double Elevator
         {
             get
@@ -97,6 +107,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Property of airSpeed variable. */
         public double AirSpeed
         {
             get
@@ -111,6 +122,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Property of altitude variable. */
         public double Altitude
         {
             get
@@ -125,6 +137,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Property of roll variable. */
         public double Roll
         {
             get
@@ -139,6 +152,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Property of pitch variable. */
         public double Pitch
         {
             get
@@ -153,6 +167,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Property of altimeter variable. */
         public double Altimeter
         {
             get
@@ -167,6 +182,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Property of heading variable. */
         public double Heading
         {
             get
@@ -181,6 +197,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Property of groundSpeed variable. */
         public double GroundSpeed
         {
             get
@@ -195,6 +212,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Property of verticalSpeed variable. */
         public double VerticalSpeed
         {
             get
@@ -209,8 +227,7 @@ namespace FlightSimulatorApp
             }
         }
 
-        private double latitude;
-
+        /* Property of latitude variable. */
         public double Latitude
         {
             get
@@ -225,8 +242,7 @@ namespace FlightSimulatorApp
             }
         }
 
-        private double longitude;
-
+        /* Property of longitude variable. */
         public double Longitude
         {
             get
@@ -241,6 +257,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Property of aileron variable. */
         public double Aileron
         {
             get
@@ -255,6 +272,7 @@ namespace FlightSimulatorApp
             }
         }
 
+        /* Property of throttle variable. */
         public double Throttle
         {
             get
@@ -269,8 +287,7 @@ namespace FlightSimulatorApp
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        /* Notifies the observers of a change that occures. */
         public void NotifyPropertyChanged(string propName)
         {
             if (this.PropertyChanged != null)
@@ -279,19 +296,28 @@ namespace FlightSimulatorApp
             }
         }
 
-        public bool connect(string ip, string port)
+        /* In charge of connecting to a server given:
+         *
+         * string ip
+         * string port
+         * 
+         * returns bool for succeeding or failing to Connect. 
+         */
+        public bool Connect(string ip, string port)
         {
             int actualPort = Int32.Parse(port);
-            return this.telnetClient.connect(ip, actualPort);
+            return this.telnetClient.Connect(ip, actualPort);
         }
 
-        public void disconnect()
+        /* When called - disconnects from the server. */
+        public void Disconnect()
         {
             stop = true;
-            this.telnetClient.disconnect();
+            this.telnetClient.Disconnect();
         }
 
-        public void start()
+        /* In charge of executing the model's algorithm. */
+        public void Start()
         {
             new Thread(delegate ()
             {
@@ -350,9 +376,9 @@ namespace FlightSimulatorApp
 
                         mut1.WaitOne();
 
-                        this.telnetClient.write(airSpeed1);
-                        answer = this.telnetClient.read().Split('\n')[0];
-                        isNumber = double.TryParse(answer, out stam);
+                        this.telnetClient.Write(airSpeed1);
+                        answer = this.telnetClient.Read().Split('\n')[0];
+                        isNumber = double.TryParse(answer, out dummy);
 
                         if (answer != "ERR" && isNumber)
                         {
@@ -363,18 +389,18 @@ namespace FlightSimulatorApp
                             if (answer == timeoutMsg)
                             {
                                 this.timer.Interval = TimeSpan.FromSeconds(4);
-                                showIndicationOnScreen("Server is under load of requests");
+                                ShowIndicationOnScreen("Server is under load of requests");
 
                             }
                             else // Got an ERR as an answer
                             {
-                                showIndicationOnScreen("Error when receiving AirSpeed value");
+                                ShowIndicationOnScreen("Error when receiving AirSpeed value");
                             }
                         }
 
-                        this.telnetClient.write(altitude1);
-                        answer = this.telnetClient.read().Split('\n')[0];
-                        isNumber = double.TryParse(answer, out stam);
+                        this.telnetClient.Write(altitude1);
+                        answer = this.telnetClient.Read().Split('\n')[0];
+                        isNumber = double.TryParse(answer, out dummy);
 
                         if (answer != "ERR" && isNumber)
                         {
@@ -385,17 +411,17 @@ namespace FlightSimulatorApp
                             if (answer == timeoutMsg)
                             {
                                 this.timer.Interval = TimeSpan.FromSeconds(4);
-                                showIndicationOnScreen("Server is under load of requests");
+                                ShowIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
                             {
-                                showIndicationOnScreen("Error when receiving Altitude value");
+                                ShowIndicationOnScreen("Error when receiving Altitude value");
                             }
                         }
 
-                        this.telnetClient.write(roll1);
-                        answer = this.telnetClient.read().Split('\n')[0];
-                        isNumber = double.TryParse(answer, out stam);
+                        this.telnetClient.Write(roll1);
+                        answer = this.telnetClient.Read().Split('\n')[0];
+                        isNumber = double.TryParse(answer, out dummy);
 
                         if (answer != "ERR" && isNumber)
                         {
@@ -406,17 +432,17 @@ namespace FlightSimulatorApp
                             if (answer == timeoutMsg)
                             {
                                 this.timer.Interval = TimeSpan.FromSeconds(4);
-                                showIndicationOnScreen("Server is under load of requests");
+                                ShowIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
                             {
-                                showIndicationOnScreen("Error when receiving Roll value");
+                                ShowIndicationOnScreen("Error when receiving Roll value");
                             }
                         }
 
-                        this.telnetClient.write(pitch1);
-                        answer = this.telnetClient.read().Split('\n')[0];
-                        isNumber = double.TryParse(answer, out stam);
+                        this.telnetClient.Write(pitch1);
+                        answer = this.telnetClient.Read().Split('\n')[0];
+                        isNumber = double.TryParse(answer, out dummy);
 
                         if (answer != "ERR" && isNumber)
                         {
@@ -427,17 +453,17 @@ namespace FlightSimulatorApp
                             if (answer == timeoutMsg)
                             {
                                 this.timer.Interval = TimeSpan.FromSeconds(4);
-                                showIndicationOnScreen("Server is under load of requests");
+                                ShowIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
                             {
-                                showIndicationOnScreen("Error when receiving Pitch value");
+                                ShowIndicationOnScreen("Error when receiving Pitch value");
                             }
                         }
 
-                        this.telnetClient.write(altimeter1);
-                        answer = this.telnetClient.read().Split('\n')[0];
-                        isNumber = double.TryParse(answer, out stam);
+                        this.telnetClient.Write(altimeter1);
+                        answer = this.telnetClient.Read().Split('\n')[0];
+                        isNumber = double.TryParse(answer, out dummy);
 
                         if (answer != "ERR" && isNumber)
                         {
@@ -448,17 +474,17 @@ namespace FlightSimulatorApp
                             if (answer == timeoutMsg)
                             {
                                 this.timer.Interval = TimeSpan.FromSeconds(4);
-                                showIndicationOnScreen("Server is under load of requests");
+                                ShowIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
                             {
-                                showIndicationOnScreen("Error when receiving Altimeter value");
+                                ShowIndicationOnScreen("Error when receiving Altimeter value");
                             }
                         }
 
-                        this.telnetClient.write(heading1);
-                        answer = this.telnetClient.read().Split('\n')[0];
-                        isNumber = double.TryParse(answer, out stam);
+                        this.telnetClient.Write(heading1);
+                        answer = this.telnetClient.Read().Split('\n')[0];
+                        isNumber = double.TryParse(answer, out dummy);
 
                         if (answer != "ERR" && isNumber)
                         {
@@ -469,17 +495,17 @@ namespace FlightSimulatorApp
                             if (answer == timeoutMsg)
                             {
                                 this.timer.Interval = TimeSpan.FromSeconds(4);
-                                showIndicationOnScreen("Server is under load of requests");
+                                ShowIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
                             {
-                                showIndicationOnScreen("Error when receiving Heading value");
+                                ShowIndicationOnScreen("Error when receiving Heading value");
                             }
                         }
 
-                        this.telnetClient.write(groundSpeed1);
-                        answer = this.telnetClient.read().Split('\n')[0];
-                        isNumber = double.TryParse(answer, out stam);
+                        this.telnetClient.Write(groundSpeed1);
+                        answer = this.telnetClient.Read().Split('\n')[0];
+                        isNumber = double.TryParse(answer, out dummy);
 
                         if (answer != "ERR" && isNumber)
                         {
@@ -490,17 +516,17 @@ namespace FlightSimulatorApp
                             if (answer == timeoutMsg)
                             {
                                 this.timer.Interval = TimeSpan.FromSeconds(4);
-                                showIndicationOnScreen("Server is under load of requests");
+                                ShowIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
                             {
-                                showIndicationOnScreen("Error when receiving GroundSpeed value");
+                                ShowIndicationOnScreen("Error when receiving GroundSpeed value");
                             }
                         }
 
-                        this.telnetClient.write(verticalSpeed1);
-                        answer = this.telnetClient.read().Split('\n')[0];
-                        isNumber = double.TryParse(answer, out stam);
+                        this.telnetClient.Write(verticalSpeed1);
+                        answer = this.telnetClient.Read().Split('\n')[0];
+                        isNumber = double.TryParse(answer, out dummy);
 
                         if (answer != "ERR" && isNumber)
                         {
@@ -511,17 +537,17 @@ namespace FlightSimulatorApp
                             if (answer == timeoutMsg)
                             {
                                 this.timer.Interval = TimeSpan.FromSeconds(4);
-                                showIndicationOnScreen("Server is under load of requests");
+                                ShowIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
                             {
-                                showIndicationOnScreen("Error when receiving VerticalSpeed value");
+                                ShowIndicationOnScreen("Error when receiving VerticalSpeed value");
                             }
                         }
 
-                        this.telnetClient.write(latitude1);
-                        answer = this.telnetClient.read().Split('\n')[0];
-                        isNumber = double.TryParse(answer, out stam);
+                        this.telnetClient.Write(latitude1);
+                        answer = this.telnetClient.Read().Split('\n')[0];
+                        isNumber = double.TryParse(answer, out dummy);
 
                         if (answer != "ERR" && isNumber)
                         {
@@ -532,7 +558,7 @@ namespace FlightSimulatorApp
                             }
                             else
                             {
-                                showIndicationOnScreen("Invalid Latitude value on map(cannot get out of Earth)");
+                                ShowIndicationOnScreen("Invalid Latitude value on map(cannot get out of Earth)");
                             }
                         }
                         else
@@ -540,18 +566,18 @@ namespace FlightSimulatorApp
                             if (answer == timeoutMsg)
                             {
                                 this.timer.Interval = TimeSpan.FromSeconds(4);
-                                showIndicationOnScreen("Server is under load of requests");
+                                ShowIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
                             {
-                                showIndicationOnScreen("Error when receiving Latitude value");
+                                ShowIndicationOnScreen("Error when receiving Latitude value");
                             }
                         }
 
-                        this.telnetClient.write(longitude1);
+                        this.telnetClient.Write(longitude1);
 
-                        answer = this.telnetClient.read().Split('\n')[0];
-                        isNumber = double.TryParse(answer, out stam);
+                        answer = this.telnetClient.Read().Split('\n')[0];
+                        isNumber = double.TryParse(answer, out dummy);
 
                         if (answer != "ERR" && isNumber)
                         {
@@ -562,7 +588,7 @@ namespace FlightSimulatorApp
                             }
                             else
                             {
-                                showIndicationOnScreen("Invalid Longitude value on map(cannot get out of Earth)");
+                                ShowIndicationOnScreen("Invalid Longitude value on map(cannot get out of Earth)");
                             }
                         }
                         else
@@ -570,11 +596,11 @@ namespace FlightSimulatorApp
                             if (answer == timeoutMsg)
                             {
                                 this.timer.Interval = TimeSpan.FromSeconds(4);
-                                showIndicationOnScreen("Server is under load of requests");
+                                ShowIndicationOnScreen("Server is under load of requests");
                             }
                             else // Got an ERR as an answer
                             {
-                                showIndicationOnScreen("Error when receiving Longitude value");
+                                ShowIndicationOnScreen("Error when receiving Longitude value");
                             }
                         }
 
@@ -587,21 +613,21 @@ namespace FlightSimulatorApp
                     catch (IOException e)
                     {
                         this.timer.Interval = TimeSpan.FromSeconds(10);
-                        showIndicationOnScreen(e.Message);
+                        ShowIndicationOnScreen(e.Message);
                         mut1.ReleaseMutex();
 
-                        disconnect();
+                        Disconnect();
 
                     }
                     catch (ObjectDisposedException e)
                     {
                         this.timer.Interval = TimeSpan.FromSeconds(1);
-                        showIndicationOnScreen(e.Message);
+                        ShowIndicationOnScreen(e.Message);
                         mut1.ReleaseMutex();
                     }
                     catch (NullReferenceException e)
                     {
-                        showIndicationOnScreen(e.Message);
+                        ShowIndicationOnScreen(e.Message);
                     }
                 }
 
@@ -609,54 +635,54 @@ namespace FlightSimulatorApp
 
         }
 
-        public void showIndicationOnScreen(string warningMsg)
+        /* Responsible for showing indication on the UI,
+         * of an error that occures.
+         */
+        public void ShowIndicationOnScreen(string warningMsg)
         {
-            this.WarningString = warningMsg;
+            this.WarningString = warningMsg; // Updates the warning string.
             timer.Start();
         }
 
-        public void sendSetRequest(string setRequest, string varName)
+        /* Given a string of a set request and the variable name, 
+         * sends the request to the server.
+         */
+        public void SendSetRequest(string setRequest, string varName)
         {
             try
             {
-                if (mut1.WaitOne(2))
+                if (mut1.WaitOne(2)) // When the server is not under load of requests that slow it down.
                 {
-                    this.telnetClient.write(setRequest);
-                    string answer = this.telnetClient.read();
+                    this.telnetClient.Write(setRequest);
+                    string answer = this.telnetClient.Read();
                     mut1.ReleaseMutex();
                     int index = answer.IndexOf("\n");
                     string subStr = answer.Substring(0, index);
+
                     if (subStr == "ERR")
                     {
-                        showIndicationOnScreen("Error when setting " + varName + " value");
+                        ShowIndicationOnScreen("Error when setting " + varName + " value");
                     }
                 }
-                else
-                {
-                    this.timer.Interval = TimeSpan.FromSeconds(1);
-                    showIndicationOnScreen("Not writting");
-                }
             }
-            catch (IOException e)
+            catch (IOException e) // Server crashed!
             {
                 this.timer.Interval = TimeSpan.FromSeconds(10);
-                showIndicationOnScreen(e.Message);
-                disconnect();
+                ShowIndicationOnScreen(e.Message);
+                Disconnect();
                 mut1.ReleaseMutex();
             }
             catch (ObjectDisposedException e)
             {
                 this.timer.Interval = TimeSpan.FromSeconds(1);
-                showIndicationOnScreen(e.Message);
+                ShowIndicationOnScreen(e.Message);
                 mut1.ReleaseMutex();
 
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException e) // When trying to write to a server, while there's no connection. 
             {
-                showIndicationOnScreen(e.Message);
+                ShowIndicationOnScreen(e.Message);
             }
-
         }
-
-    }
+    } // End of class.
 }

@@ -22,15 +22,16 @@ namespace FlightSimulatorApp
     {
         public VM_Sensor vmSensors;
 
+        /* Constructor. */
         public Sensors()
         {
             InitializeComponent();
         }
 
+        /* Given a VM of the sensors control, sets it to the vm member. */
         public void SetVM(VM_Sensor vM_Sensor)
         {
             this.vmSensors = vM_Sensor;
         }
-
     }
 }

@@ -10,7 +10,9 @@ namespace FlightSimulatorApp
     public class VM_Warnings : INotifyPropertyChanged
     {
         private IFlightSimulatorModel model;
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        /* Getter of the warningString value. */
         public string VM_WarningString
         {
             get
@@ -19,8 +21,7 @@ namespace FlightSimulatorApp
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        /* Constructor receives a model. */
         public VM_Warnings(IFlightSimulatorModel simulatorModel)
         {
             this.model = simulatorModel;
@@ -31,6 +32,7 @@ namespace FlightSimulatorApp
             };
         }
 
+        /* Notifies the observers of a change that occures. */
         private void NotifyPropertyChanged(string propName)
         {
             if (this.PropertyChanged != null)

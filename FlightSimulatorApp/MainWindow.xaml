@@ -38,7 +38,7 @@
             </local:Joystick>
 
             <Slider x:Name="slider1ValuesMinus1To1" HorizontalAlignment="Left" VerticalAlignment="Top"
-                Height="35" Width="273" Margin="100,120,0,0" TickPlacement="BottomRight" Value="{Binding vmController.vm_Throttle}"
+                Height="35" Width="273" Margin="100,120,0,0" TickPlacement="BottomRight" Value="{Binding vmController.VM_Throttle}"
                     TickFrequency="0.25" Minimum="-1" Maximum="1" Foreground="Black" Background="#FF9EBDD4">
                 <Slider.LayoutTransform>
                     <ScaleTransform ScaleX="1" ScaleY="3"/>
@@ -47,7 +47,7 @@
 
 
             <Slider x:Name="slider2Values0To1"
-                Height="35" Width="228" TickPlacement="BottomRight" IsDirectionReversed="True" Value="{Binding vmController.vm_Airelon}"
+                Height="35" Width="228" TickPlacement="BottomRight" IsDirectionReversed="True" Value="{Binding vmController.VM_Airelon}"
                 TickFrequency="0.125" Minimum="0" Maximum="1" Foreground="Black" Background="#FF9EBDD4" RenderTransformOrigin="0.5,0.5"
                     HorizontalAlignment="Left" VerticalAlignment="Top" Margin="380,-190,-93,0">
                 <Slider.RenderTransform>
@@ -69,7 +69,7 @@
                 x:Name="my_map" Mode="Road" Center="32.0055, 34.8854" Margin="0,0,344.333,-0.333" ScaleVisibility="Hidden"
                ZoomLevel="1.125">
 
-            <m:Pushpin  x:Name ="myPushPin"  Location ="{Binding  vmMap.vm_LocationPushPin, Mode=OneWay}" />
+            <m:Pushpin  x:Name ="myPushPin"  Location ="{Binding  vmMap.VM_LocationPushPin, Mode=OneWay}" />
             <local:Warning_Indicator HorizontalAlignment="Left" Height="301" VerticalAlignment="Top" Width="862"
                                      Margin="-151,-140,0,0" x:Name="MyWarningsIndicator"/>
 

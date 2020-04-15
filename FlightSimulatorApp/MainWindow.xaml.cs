@@ -29,20 +29,21 @@ namespace FlightSimulatorApp
     public partial class MainWindow : Window
     {
 
+        /* Constructor. */
         public MainWindow()
         {
+            // Creating all the VMs.
             VM_Sensor vmSensor = new VM_Sensor(App.myFlightSimulatorModel);
             VM_Map vmMap = new VM_Map(App.myFlightSimulatorModel);
             VM_Navigator_Controller vmController = new VM_Navigator_Controller(App.myFlightSimulatorModel);
             VM_Warnings vmWarnings = new VM_Warnings(App.myFlightSimulatorModel);
 
-            ///// From here to down when server crashes
+            // User enters IP and Port.
             UserInput popUpInput = new UserInput();
             popUpInput.ShowDialog();
 
             string port = ConfigurationManager.AppSettings.Get("Port");
             string ip = ConfigurationManager.AppSettings.Get("IP");
-
 
             InitializeComponent();
             Joystick_Var.SetVM(vmController);
@@ -57,26 +58,24 @@ namespace FlightSimulatorApp
                 vmWarnings
             };
 
-            if(!App.myFlightSimulatorModel.connect(ip, port))
+            if (!App.myFlightSimulatorModel.Connect(ip, port)) // Attempt of connection failed.
             {
-                App.myFlightSimulatorModel.showIndicationOnScreen("Cannot connect to server!");
-            } 
-            else
-            {
-                App.myFlightSimulatorModel.start();
+                App.myFlightSimulatorModel.ShowIndicationOnScreen("Cannot Connect to server!");
             }
 
+            else
+            {
+                App.myFlightSimulatorModel.Start(); // Execute the program. 
+            }
         }
 
-
-
+        /* Empty. */
         private void Joystick_Loaded(object sender, RoutedEventArgs e) { }
 
-        //For sake of joystick
+        /* For sake of joystick(return knob to the center). */
         private void ButtonMouse_Up(object sender, MouseButtonEventArgs e)
         {
-            //this.Joystick_Var.SetPiptickToCenter_NO_UPDATE();
-            this.Joystick_Var.SetPiptickToCenter();
+            this.Joystick_Var.SetPiptickToCenter_NO_UPDATE();
             Joystick_Var.mouseIsPressed = false;
         }
     }

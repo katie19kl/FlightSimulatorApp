@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <ProgressBar x:Name="AirSpeed" Height="Auto" RenderTransformOrigin="0.5,0.5"
-                      Value="{Binding vmSensor.vm_AirSpeed, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,-8,287,170">
+                      Value="{Binding vmSensor.VM_AirSpeed, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,-8,287,170">
             <ProgressBar.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -24,7 +24,7 @@
             </ProgressBar.RenderTransform>
         </ProgressBar>
         <ProgressBar x:Name="Altitude" Height="Auto" RenderTransformOrigin="0.5,0.5"
-                      Value="{Binding vmSensor.vm_Altitude, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,24,287,136">
+                      Value="{Binding vmSensor.VM_Altitude, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,24,287,136">
             <ProgressBar.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -35,7 +35,7 @@
             </ProgressBar.RenderTransform>
         </ProgressBar>
         <ProgressBar x:Name="Roll" Height="Auto"  RenderTransformOrigin="0.5,0.5" Background="#FF90CAF9"
-                     Value="{Binding vmSensor.vm_Roll, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,101,287,62">
+                     Value="{Binding vmSensor.VM_Roll, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,101,287,62">
             <ProgressBar.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -46,7 +46,7 @@
             </ProgressBar.RenderTransform>
         </ProgressBar>
         <ProgressBar x:Name="Altimeter" Height="Auto" RenderTransformOrigin="0.5,0.5"
-                     Value="{Binding vmSensor.vm_Altimeter, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,88,287,73">
+                     Value="{Binding vmSensor.VM_Altimeter, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,88,287,73">
             <ProgressBar.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -57,7 +57,7 @@
             </ProgressBar.RenderTransform>
         </ProgressBar>
         <ProgressBar x:Name="Heading" Height="Auto" RenderTransformOrigin="0.5,0.5"
-                    Value="{Binding vmSensor.vm_Heading, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,153,287,7" >
+                    Value="{Binding vmSensor.VM_Heading, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,153,287,7" >
             <ProgressBar.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -68,7 +68,7 @@
             </ProgressBar.RenderTransform>
         </ProgressBar>
         <ProgressBar x:Name="Ground_Speed" Height="Auto" RenderTransformOrigin="0.5,0.5"
-                     Value="{Binding vmSensor.vm_GroundSpeed, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,23,287,144" Grid.Row="1">
+                     Value="{Binding vmSensor.VM_GroundSpeed, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,23,287,144" Grid.Row="1">
             <ProgressBar.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -79,7 +79,7 @@
             </ProgressBar.RenderTransform>
         </ProgressBar>
         <ProgressBar x:Name="Pitch" Height="Auto" RenderTransformOrigin="0.5,0.5"
-                     Value="{Binding vmSensor.vm_Pitch, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,98,287,65">
+                     Value="{Binding vmSensor.VM_Pitch, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,98,287,65">
             <ProgressBar.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -91,7 +91,7 @@
         </ProgressBar>
 
         <ProgressBar x:Name="Vertical_Speed" Height="Auto"  RenderTransformOrigin="0.5,0.5"
-                     Value="{Binding vmSensor.vm_VerticalSpeed, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,68,287,100" Grid.Row="1">
+                     Value="{Binding vmSensor.VM_VerticalSpeed, Mode=OneWay}" Maximum="10" Minimum="0" Margin="89,68,287,100" Grid.Row="1">
             <ProgressBar.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -113,14 +113,14 @@
             <TextBlock HorizontalAlignment="Left" Margin="200,18,0,0" TextWrapping="Wrap" Text="Vertical Speed" VerticalAlignment="Top" Width="91" Height="24" OpacityMask="#FFFFF9F9" Foreground="White"/>
 
         </StackPanel>
-        <Label Content="{Binding vmSensor.vm_AirSpeed, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,19,0,0" VerticalAlignment="Top" Height="24" Width="33" FontWeight="Bold" Background="{x:Null}"/>
-        <Label Content="{Binding vmSensor.vm_Altitude, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,66,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" FontWeight="Bold"/>
-        <Label Content="{Binding vmSensor.vm_Roll, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,108,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" FontWeight="Bold"/>
-        <Label Content="{Binding vmSensor.vm_Pitch, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,153,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" FontWeight="Bold"/>
-        <Label Content="{Binding vmSensor.vm_Altimeter, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,10,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" Grid.Row="1" FontWeight="Bold"/>
-        <Label Content="{Binding vmSensor.vm_Heading, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,55,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" Grid.Row="1" FontWeight="Bold"/>
-        <Label Content="{Binding vmSensor.vm_GroundSpeed, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,96,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" Grid.Row="1" FontWeight="Bold"/>
-        <Label Content="{Binding vmSensor.vm_VerticalSpeed, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,143,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" Grid.Row="1" FontWeight="Bold"/>
+        <Label Content="{Binding vmSensor.VM_AirSpeed, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,19,0,0" VerticalAlignment="Top" Height="24" Width="33" FontWeight="Bold" Background="{x:Null}"/>
+        <Label Content="{Binding vmSensor.VM_Altitude, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,66,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" FontWeight="Bold"/>
+        <Label Content="{Binding vmSensor.VM_Roll, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,108,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" FontWeight="Bold"/>
+        <Label Content="{Binding vmSensor.VM_Pitch, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,153,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" FontWeight="Bold"/>
+        <Label Content="{Binding vmSensor.VM_Altimeter, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,10,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" Grid.Row="1" FontWeight="Bold"/>
+        <Label Content="{Binding vmSensor.VM_Heading, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,55,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" Grid.Row="1" FontWeight="Bold"/>
+        <Label Content="{Binding vmSensor.VM_GroundSpeed, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,96,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" Grid.Row="1" FontWeight="Bold"/>
+        <Label Content="{Binding vmSensor.VM_VerticalSpeed, Mode=OneWay}" HorizontalAlignment="Left" Margin="616,143,0,0" VerticalAlignment="Top" Height="24" Width="33" Background="{x:Null}" Grid.Row="1" FontWeight="Bold"/>
     </Grid>
 
 
